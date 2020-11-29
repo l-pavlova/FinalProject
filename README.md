@@ -1,5 +1,10 @@
 # FinalProject
 
+# Team
+
+Борис Трифонов Ф.Н. 62343
+Людмила Павлова Ф.Н. 62270
+
 # Introduction
 A collaborative Project for the FMI Javascript Advanced course
 
