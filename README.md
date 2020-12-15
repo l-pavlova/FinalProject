@@ -1,4 +1,4 @@
-# FinalProject
+# FinalProject - Messaging platform
 
 # Team
 
@@ -14,7 +14,7 @@ Implement a web application to provide a social messaging platform.
 # Requirements and Use Cases
 
 - Register and Logging
-- Sending and receiving messages
+- Sending and receiving messages - main functionality
 - Messages with other types of data(images/audio...)
 - Sharing information in a social dashboard visible for everyone
 
@@ -26,8 +26,7 @@ express server on the backend, MVC as an architectural style, React front end
 # Algorithms
 
 # Important external dependencies
-- React
-- Redux 
+- React 
 - Mongo
 - JWT
 - Socket.IO
