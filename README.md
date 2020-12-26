@@ -27,7 +27,8 @@ express server on the backend, MVC as an architectural style, React front end
 
 # Important external dependencies
 - React 
-- Mongo
+- ReactRouter
+- Mongo Atlas
 - JWT
 - Socket.IO
 # Security
