@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
+const Schema = mongoose.Schema;
+const userSchema = new Schema({
     email: {
         type: String,
         required: true
@@ -24,9 +24,11 @@ const userSchema = new mongoose.Schema({
         type: String
         //required:true
     },
-    socialMediaFriends: {
-        type: [String]
-    }//contains list of friends names/ids
+    socialMediaFriends:  [{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }]//contains list of friends names/ids
 });
 
 module.exports = mongoose.model('User', userSchema);

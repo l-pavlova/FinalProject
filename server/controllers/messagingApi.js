@@ -1,6 +1,6 @@
 const { Router } = require('express');
-const User = require('../models/user');
-const Message = require('../models/message');
+const User = require('../DAL/models/user');
+const Message = require('../DAL/models/message');
 const router = Router();
 
 //todo::

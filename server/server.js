@@ -1,15 +1,13 @@
 const express = require('express')
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose')
 const port = process.env.port || 3001;
 
 const app = express();
 const userRouter = require('./controllers/userApi');
 const chatRouter = require('./controllers/messagingApi');
+const Fascade = require('./DAL/Fascade');
 
-mongoose.connect('mongodb://localhost/messaging-platform', {
-  useNewUrlParser:true, useUnifiedTopology:true
-});
+const fascade = new Fascade();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
