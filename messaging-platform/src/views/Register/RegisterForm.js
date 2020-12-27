@@ -1,4 +1,6 @@
-const React = require('react')
+import requester from '../../services/requester.js';
+import api from '../../services/api.js';
+const React = require('react');
 
 class RegisterForm extends React.Component {
     constructor(props) {
@@ -57,18 +59,13 @@ class RegisterForm extends React.Component {
     }
 }
 
-
-function registerUser(data) {
+const registerUser = async (data) => {
     console.log('in register user');
     console.log(data);
     
-    fetch('/user/register', {
-        method: 'POST',
-        headers: {"Content-Type": "application/json"},
-        body: JSON.stringify(data)
-    }).then((response) =>
-            console.log("registering" + response));
-            
+    const temp = await requester(api.addUser()).create(data);
+
+    console.log(temp);
 }
 
 export default RegisterForm;
