@@ -1,15 +1,21 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const messageSchema = {
+    bsonType: "object",
+    required: [ "senderId", "recieverId"],//receiver Id could be a groupId
+    properties: {
+        senderId: {
+          bsonType: "objectId",
+          description: "must be a string and is required"
+       },
+       recieverId: {
+           bsonType: "objectId",
+           description: "must be a string and is required"
+       },
+       content: {
+           bsonType: ["string"],
+           description: "must be a string"
+       }
+    }
+ }
 
-const messageSchema = new Schema({
-    userId: [{
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    }],
-    content: {
-        type: String
-    }//todo:think about types of messageContents, ask OPA BOCE 
-});
 
-module.exports = mongoose.model('Message', messageSchema);
+ module.exports = messageSchema;

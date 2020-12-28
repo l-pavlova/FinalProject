@@ -1,18 +1,17 @@
 const Adapter = require("./adapter");
-const BaseRepository = require("./baseRepository");
-
 
 class Fascade {
     constructor() {
-        this.adapter = initAdapter().then((res) => this.initRepositories(res).bind(this));
+        this.adapter = {};
         this.userRepo = {};
         this.messageRepo = {};
+        this.init();
     }
 }
 
-Fascade.prototype.initRepositories = function () {
-    this.userRepo = new BaseRepository(mongoose.connection.db, 'User');
-    this.messageRepo = new BaseRepository(mongoose.connection.db, "Message");
+Fascade.prototype.init = async function () {
+     this.adapter = await initAdapter();
+     this.adapter.initCollections();
 }
 
 
@@ -20,12 +19,15 @@ Fascade.prototype.saveUser = function(user) {
     this.userRepo.create(user);
 }
 
-function initAdapter() {
-    return new Promise(() => {
-        var adapter = new Adapter();
-        adapter.connect('mongodb://localhost/messaging-platform');
+async function initAdapter() {
+    const adapter = new Adapter();
+    try {
+        await adapter.connect("mongodb://localhost:27017", "messaging-platform");
         return adapter;
-    });
+    } catch (err) {
+        console.log(err);
+        return new Error("couldnt connect to db");
+    }
 }
 
 module.exports = Fascade;

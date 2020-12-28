@@ -1,0 +1,48 @@
+const userSchema = new Schema({
+    email: {
+        type: String,
+        required: true
+    },
+    firstName: {
+        type: String,
+        required: true
+    },
+    lastName: {
+        type: String,
+        required: true
+    },
+    age: {
+        type: Number
+    },
+    birthDate: {
+        type: Date,
+        default: Date.now()
+    },
+    password: {
+        type: String
+        //required:true
+    },
+    socialMediaFriends:  [{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }]//contains list of friends names/ids
+});
+*/
+/*
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const messageSchema = new Schema({
+    userId: [{
+        type: Schema.Types.ObjectId,
+        required: true,
+        ref: 'User'
+    }],
+    content: {
+        type: String
+    }//todo:think about types of messageContents, ask OPA BOCE 
+});
+*/
+module.exports = userSchema;
