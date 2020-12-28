@@ -1,10 +1,10 @@
-const { MongoClient } = require('mongodb')
-const { createCollection }= require("./models/collectionCreator");
+import  MongoClient from 'mongodb'
+import { createCollection } from "./models/collectionCreator.js";
 
-const collections = require("./models/collectionMappings");
+import collections from "./models/collectionMappings.js";
 
 
-class Adapter {
+export default class Adapter {
     constructor() {
         this.dbClient = MongoClient;
         this.db = null;
@@ -34,4 +34,3 @@ Adapter.prototype.initCollections = function() {
 Adapter.prototype.getConnection = function() {
     return this.db;
 }
-module.exports = Adapter;

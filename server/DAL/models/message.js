@@ -17,5 +17,4 @@ const messageSchema = {
     }
  }
 
-
- module.exports = messageSchema;
+ export default messageSchema;

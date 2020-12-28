@@ -1,6 +1,6 @@
-const Adapter = require("./adapter");
+import Adapter from "./adapter.js";
 
-class Fascade {
+export default class Fascade {
     constructor() {
         this.adapter = {};
         this.userRepo = {};
@@ -13,7 +13,6 @@ Fascade.prototype.init = async function () {
      this.adapter = await initAdapter();
      this.adapter.initCollections();
 }
-
 
 Fascade.prototype.saveUser = function(user) {
     this.userRepo.create(user);
@@ -29,5 +28,3 @@ async function initAdapter() {
         return new Error("couldnt connect to db");
     }
 }
-
-module.exports = Fascade;

@@ -1,5 +1,5 @@
-const { Router } = require('express');
-const User = require('../DAL/models/user');
+import { Router } from 'express';
+
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    const user = new User({
+   /* const user = new User({
         email: req.body.email,
         firstName: req.body.firstName,
         lastName: req.body.lastName,
@@ -25,37 +25,37 @@ router.post('/register', async (req, res) => {
         console.log(e);
         res.render('/');
         console.log('Failed regisetring')
-    }
+    }*/
 })
 
 router.post('/login', async (req, res) => {
-    const user = new User({
+    /*const user = new User({
         email: req.body.email,
         password: req.body.password
     })
     console.log(user);
     try {
         console.log('logging user')
-        let located = await User.findOne({ email: user.email }).exec();
+        let located = await findOne({ email: user.email }).exec();
         //add validation middleware for password
         res.send(located);
     } catch (e) {
         console.log(e);
         res.render('/');
         console.log('Failed logging')
-    }
+    }*/
 })
 
 router.get('/:id', async (req, res, next) => {
     console.log(`logged user with ${req.params.id}`);
-    const user = await User.findById(req.params.id);
+    const user = await findById(req.params.id);
     if (user == null) res.redirect('/');
     res.send(user);
 })
 
 router.get('/friend/:id', async (req, res, next) => {
     console.log(`getting friend details for:`)
-    const user = await User.findById(req.params.id);
+    const user = await findById(req.params.id);
     if (user == null) res.redirect('/');
     res.send(user);
 })
@@ -64,16 +64,16 @@ router.get('/friends/:id', async (req, res, next) => {
     console.log('list of users');
 
     //todo: get current user from cookie not from request params 
-    const currentUser = await User.findById(req.params.id);
+    const currentUser = await findById(req.params.id);
 
     const friends = [];
     if (currentUser.socialMediaFriends.length > 0) {
         for (let friendId of currentUser.socialMediaFriends) {
-            let friend = await User.findById(friendId);//todo: add all from db here
+            let friend = await findById(friendId);//todo: add all from db here
             friends.push(friend);
         }
     }
     res.send(friends);
 })
 
-module.exports = router;
+export default router;
