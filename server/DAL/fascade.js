@@ -10,8 +10,7 @@ export default class Fascade {
 }
 
 Fascade.prototype.init = async function () {
-     this.adapter = await initAdapter();
-     this.adapter.initCollections();
+     this.adapter = await initAdapter().then(res => res.initCollections());
 }
 
 Fascade.prototype.saveUser = function(user) {

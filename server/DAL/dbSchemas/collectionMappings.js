@@ -1,6 +1,6 @@
-import userSchema  from "./user.js";
-import groupSchema from "./group.js";
-import messageSchema from "./message.js";
+import userSchema  from "./userSchema.js";
+import groupSchema from "./groupSchema.js";
+import messageSchema from "./messageSchema.js";
 
 const collectionMap = new Map()
 collectionMap.set("User", userSchema);

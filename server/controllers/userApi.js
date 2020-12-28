@@ -1,5 +1,5 @@
 import { Router } from 'express';
-
+import User from '../DAL/models/user.js'
 const router = Router();
 
 router.get('/', (req, res) => {
@@ -8,14 +8,14 @@ router.get('/', (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-   /* const user = new User({
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        age: req.body.age,
-        birthDate: req.body.birthDate,
-        password: req.body.password
-    })
+    const user = new User(
+        req.body.email,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.age,
+        req.body.birthDate,
+        req.body.password);
+    
     console.log(user);
     try {
         console.log('registering user in db')
@@ -25,7 +25,7 @@ router.post('/register', async (req, res) => {
         console.log(e);
         res.render('/');
         console.log('Failed regisetring')
-    }*/
+    }
 })
 
 router.post('/login', async (req, res) => {

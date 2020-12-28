@@ -1,30 +1,11 @@
-const userSchema = {
-    bsonType: "object",
-    required: [ "email", "firstName", "lastName" ],
-    properties: {
-       email: {
-          bsonType: "string",
-          description: "must be a string and is required"
-       },
-       firstName: {
-           bsonType: "string",
-           description: "must be a string and is required"
-       },
-       lastName: {
-           bsonType: "string",
-           description: "must be a string and is required"
-       },
-       age: {
-          bsonType: ["int"],
-          description: "must be an integer if it exists"
-       },
-       birthDate: {
-           bsonType: ["date"]
-       },
-       socialMediaFriends: {
-           bsonType: ["array"]
-       }//contains list of friends names/ids
+export default class User {
+    constructor(email, fName, lName, age, bDate, pass, friends = []) {
+        this.email = email;
+        this.firstName = fName;
+        this.lastName = lName;
+        this.password = pass;
+        this.age = age;
+        this.birthDate = bDate;
+        this.socialMediaFriends = friends;
     }
- }
-
- export default userSchema;
+}

@@ -1,6 +1,6 @@
 export function createCollection(db, collectionName, schema) {
     console.log(`in create collection collection name:${collectionName} schema:${schema}`);
-    let col = db.createCollection(collectionName, {
+    db.createCollection(collectionName, {
         validator: {
             $jsonSchema: schema
         }

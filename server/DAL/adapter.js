@@ -1,7 +1,7 @@
 import  MongoClient from 'mongodb'
-import { createCollection } from "./models/collectionCreator.js";
+import { createCollection, deleteCollection } from "./dbSchemas/collections.js";
 
-import collections from "./models/collectionMappings.js";
+import collections from "./dbSchemas/collectionMappings.js";
 
 
 export default class Adapter {
@@ -28,6 +28,7 @@ Adapter.prototype.connect = async function connect(connectionString, dbname) {
 Adapter.prototype.initCollections = function() {
     collections.forEach((schema, key) => {
         createCollection(this.db, key, schema);
+        //deleteCollection(this.db, key);
     });
 }
 
