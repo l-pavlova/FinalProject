@@ -13,6 +13,10 @@ const messageSchema = {
        content: {
            bsonType: ["string"],
            description: "must be a string"
+       },
+       sentAt: {
+           bsonType: "date",
+           description: "must be a date"
        }
     }
  }

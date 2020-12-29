@@ -1,9 +1,23 @@
 import { Router } from 'express';
 import User from '../DAL/models/user.js'
+import Repository from '../DAL/collectionRepository.js'
+import collectionMap from '../DAL/dbSchemas/collectionMappings.js';
 const router = Router();
+let adapter = {};
+let userRepo = {};
+
+function initializeRepo(adapter, collection) {
+    console.log(`creating repository for ${collection}`)
+    userRepo = new Repository(adapter, collection);
+}
+
+router.use((req, res, next) => {
+    initializeRepo(req.adapter, "User");
+    next();
+})
 
 router.get('/', (req, res) => {
-    console.log('at user home sme');
+    console.log(`in user home`);
     res.send('user home');
 })
 
@@ -15,11 +29,12 @@ router.post('/register', async (req, res) => {
         req.body.age,
         req.body.birthDate,
         req.body.password);
-    
+
     console.log(user);
     try {
         console.log('registering user in db')
-        let createdUser = await user.save();
+        let createdUser = userRepo.create(user);
+        console.log(createdUser);
         res.redirect(`/user/${createdUser.id}`)
     } catch (e) {
         console.log(e);
@@ -48,7 +63,8 @@ router.post('/login', async (req, res) => {
 
 router.get('/:id', async (req, res, next) => {
     console.log(`logged user with ${req.params.id}`);
-    const user = await findById(req.params.id);
+    let query = { _id: req.params.id };
+    const user = userRepo.findOne(query);
     if (user == null) res.redirect('/');
     res.send(user);
 })

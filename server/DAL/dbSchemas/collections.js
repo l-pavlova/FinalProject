@@ -1,5 +1,5 @@
 export function createCollection(db, collectionName, schema) {
-    console.log(`in create collection collection name:${collectionName} schema:${schema}`);
+    console.log(`in create collection:${collectionName} schema:${schema}`);
     db.createCollection(collectionName, {
         validator: {
             $jsonSchema: schema
@@ -9,8 +9,10 @@ export function createCollection(db, collectionName, schema) {
 }
 
 export function deleteCollection(db, colName) {
-    db.collection(colName).drop(function (err, delOK) {
-        if (err) throw err;
-        if (delOK) console.log("Collection deleted");
-    });
+    db.collection(colName).drop((err, delOK) => {
+            if (err)
+                throw err;
+            if (delOK)
+                console.log("Collection deleted");
+        });
 }

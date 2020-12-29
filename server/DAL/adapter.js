@@ -35,3 +35,15 @@ Adapter.prototype.initCollections = function() {
 Adapter.prototype.getConnection = function() {
     return this.db;
 }
+
+Adapter.prototype.initialize = async function () {
+    const adapter = new Adapter();
+    try {
+        await adapter.connect("mongodb://localhost:27017", "messaging-platform");
+        return adapter;
+    } catch (err) {
+        console.log(err);
+        return new Error("couldnt connect to db");
+    }
+}
+
