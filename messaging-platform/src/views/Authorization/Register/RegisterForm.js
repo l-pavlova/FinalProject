@@ -9,32 +9,35 @@ import { validateRequestField, validateEmail, validateLength } from '../../../se
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 
-const RegisterForm = () => {
+const RegisterForm = ({
+    isLogin,
+}) => {
     const registerUser = data => requester(api.addUser()).create(data);
+    const validationFields = isLogin ? ['email', 'password'] : ['firstName', 'lastName', 'email', 'password'];
+    const initialValues = isLogin 
+        ? { email: '', password: '' } 
+        : { firstName: '', lastName: '', email: '', password: '' };
 
     return (
         <Formik
-            initialValues={{
-                firstName: '',
-                lastName: '',
-                email: '',
-                password: '',
-            }}
+            initialValues={initialValues}
             validate={values => {
                 return {
                     ...validateEmail(values, ['email']),
                     ...validateLength(values, [
                         {value: "password", minLength: 8, maxLength: 32}
                     ]),
-                    ...validateRequestField(values, ['firstName', 'lastName', 'email', 'password']),
+                    ...validateRequestField(values, validationFields),
                 }
             }}
             onSubmit={values => {
                 registerUser(values);
+                console.log(true)
             }}
         > 
             {(props) => 
                 <RegisterFormView
+                    isLogin={isLogin}
                     {...props} 
                 />
             }

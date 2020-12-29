@@ -1,67 +1,63 @@
 @import 'style.scss';
 
 .register-wrapper {
-    display: flex;
+    display: block;
+    justify-content: center;
+    flex-direction: column;
+    position: absolute;
+    top: 70%;
+    left: 50%;
+    height: 100%;
+    width: 100%;
+    transform: translate(-50%, -50%);
     min-height: 100vh;
 
     .register-form-wrapper {
         background-color: transparent;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        z-index: 2;
-        width: 60%;
+        position: relative;
+        margin-top: 18px;
+        left: 37.5vw;
+        width: 25%;
         height: 50%;
-        padding: 20px;
-        text-align: center;
       }
 
-    .input-field {
-        border: none;
-        border-bottom: solid black 1px;
-        background-color: white !important;
-        box-shadow: none;
-        border-radius: 0;
+    .register-title {
+        color: $grey-dark;
+        font-family: sans-serif;
+        font-weight: 200;
+        font-size: 56px;
     }
 
-    .input-field:focus {
-        border-bottom: solid $primary-blue 2px;
+    .header-wrapper {
+        position: relative;
+        //top: 100%;
     }
 
-    .input-field.is-valid:focus {
-        border-bottom: solid $primary-blue 2px;
-    }
+    .register-subtitle-wrapper {
+        display: flex;
+        justify-content: center;
+        flex-direction: row;
 
-    //.input-field:o
+        .register-subtitle {
+            color: $grey-dark;
+            font-family: sans-serif;
+            font-weight: 50;
+            font-size: 18px;
+            justify-content: center;
+            padding-top: 3.5px;
+            margin: 0;
+        }
 
-    input:-webkit-autofill,
-    input:-webkit-autofill:hover,
-    input:-webkit-autofill:focus,
-    input:-webkit-autofill:active {
-        transition: background-color 5000s ease-in-out 0s;
-    }
-
-    .input-field.is-invalid {
-        border-color: $warning-red;
-        box-shadow: none;
-    }
-
-    .input-field.is-valid {
-        box-shadow: none;
-        border-color: black;
-        background-image: none;
-    }
-
-    .btn-primary {
-        border-color: $primary-blue;
-        background-color: white;
-        color: $primary-blue;
-    }
-
-    .btn-primary:hover {
-        border-color: white;
-        background-color: $primary-blue;
-        color: white;
+        .register-login-link-btn {
+            margin-left: 8px;
+            background: none!important;
+            border: none;
+            padding: 0!important;
+            font-family: sans-serif;
+            font-weight: 50;
+            font-size: 18px;
+            color: $primary-blue;
+            cursor: pointer;
+        }
     }
 }

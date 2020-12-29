@@ -3,6 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { ErrorMessage } from 'formik';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './RegisterFormView.scss';
 
 const RegisterFormView = ({
     handleSubmit,
@@ -10,9 +11,11 @@ const RegisterFormView = ({
     values,
     touched,
     errors,
+    isLogin,
 }) => {
     return (
         <Form noValidate onSubmit={handleSubmit}>
+            {!isLogin &&
             <Form.Group controlId="formFirstName">
                 <Form.Control 
                     type="text"
@@ -26,6 +29,8 @@ const RegisterFormView = ({
                 />
                 <ErrorMessage name="firstName" component="div" className="invalid-field-message"/>
             </Form.Group>
+            }
+            {!isLogin &&
             <Form.Group controlId="formLastName">
                 <Form.Control 
                     type="text" 
@@ -39,6 +44,7 @@ const RegisterFormView = ({
                 />
                 <ErrorMessage name="lastName" component="div" className="invalid-field-message"/>
             </Form.Group>
+            }
             <Form.Group controlId="formEmail">
                 <Form.Control 
                     type="email" 
@@ -66,7 +72,7 @@ const RegisterFormView = ({
                 <ErrorMessage name="password" component="div" className="invalid-field-message"/>
             </Form.Group>
             <Button variant="primary" type="submit" className="register-form-btn">
-                Sign Up
+                {isLogin ? "Log In" : "Sign Up"}
             </Button>
         </Form>
     )
