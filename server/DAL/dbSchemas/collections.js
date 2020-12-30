@@ -3,7 +3,8 @@ export function createCollection(db, collectionName, schema) {
     db.createCollection(collectionName, {
         validator: {
             $jsonSchema: schema
-        }
+        },
+        validationAction : "warn"
     }).then(() => console.log("created"))
         .catch(() => console.log("already exists"))
 }

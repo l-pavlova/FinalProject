@@ -34,7 +34,7 @@ export default class Repository {
     find(query) {
         this._collection.find(query).toArray((err, res) => {
             if (err) throw err;
-            console.log(res);
+            console.log("found documents");
             return res;
         });
     }
@@ -42,7 +42,8 @@ export default class Repository {
     findOne(id) {
         this._collection.findOne(id, (err, res) => {
             if (err) throw err;
-            console.log(res.name);
+            console.log("found document");
+            console.log(res);
             return res;
         });
     }

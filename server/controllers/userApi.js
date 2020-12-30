@@ -33,9 +33,11 @@ router.post('/register', async (req, res) => {
     console.log(user);
     try {
         console.log('registering user in db')
-        let createdUser = userRepo.create(user);
+        //todo: fix schema validation
+        await userRepo.create(user);
+        const createdUser = await userRepo.findOne({email: user.email});
         console.log(createdUser);
-        res.redirect(`/user/${createdUser.id}`)
+        res.redirect(`/user/${createdUser._id}`)
     } catch (e) {
         console.log(e);
         res.render('/');
@@ -44,34 +46,36 @@ router.post('/register', async (req, res) => {
 })
 
 router.post('/login', async (req, res) => {
-    /*const user = new User({
+    const user = new User({
         email: req.body.email,
         password: req.body.password
     })
     console.log(user);
     try {
         console.log('logging user')
-        let located = await findOne({ email: user.email }).exec();
+        let located = userRepo.findOne({ email: user.email }).exec();
         //add validation middleware for password
         res.send(located);
     } catch (e) {
         console.log(e);
         res.render('/');
         console.log('Failed logging')
-    }*/
+    }
 })
 
 router.get('/:id', async (req, res, next) => {
     console.log(`logged user with ${req.params.id}`);
     let query = { _id: req.params.id };
+    
     const user = userRepo.findOne(query);
+    console.log(user);
     if (user == null) res.redirect('/');
     res.send(user);
 })
 
 router.get('/friend/:id', async (req, res, next) => {
     console.log(`getting friend details for:`)
-    const user = await findById(req.params.id);
+    const user = userRepo.findOne({_id: req.params.id});
     if (user == null) res.redirect('/');
     res.send(user);
 })
@@ -80,12 +84,12 @@ router.get('/friends/:id', async (req, res, next) => {
     console.log('list of users');
 
     //todo: get current user from cookie not from request params 
-    const currentUser = await findById(req.params.id);
+    const currentUser = userRepo.findOne(req.params.id);
 
     const friends = [];
     if (currentUser.socialMediaFriends.length > 0) {
         for (let friendId of currentUser.socialMediaFriends) {
-            let friend = await findById(friendId);//todo: add all from db here
+            let friend = userRepo.findOne({_id: friendId});//todo: add all from db here
             friends.push(friend);
         }
     }
