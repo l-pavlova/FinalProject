@@ -1,26 +1,43 @@
-const { Router } = require('express');
-const User = require('../DAL/models/user');
+import { Router } from 'express';
+import User from '../DAL/models/user.js'
+import Repository from '../DAL/collectionRepository.js'
+import collectionMap from '../DAL/dbSchemas/collectionMappings.js';
 const router = Router();
+let adapter = {};
+let userRepo = {};
+
+function initializeRepo(adapter, collection) {
+    console.log(`creating repository for ${collection}`)
+    userRepo = new Repository(adapter, collection);
+}
+
+router.use((req, res, next) => {
+    initializeRepo(req.adapter, "User");
+    next();
+})
 
 router.get('/', (req, res) => {
-    console.log('at user home sme');
+    console.log(`in user home`);
     res.send('user home');
 })
 
 router.post('/register', async (req, res) => {
-    const user = new User({
-        email: req.body.email,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
-        age: req.body.age,
-        birthDate: req.body.birthDate,
-        password: req.body.password
-    })
+    const user = new User(
+        req.body.email,
+        req.body.firstName,
+        req.body.lastName,
+        req.body.age,
+        req.body.birthDate,
+        req.body.password);
+
     console.log(user);
     try {
         console.log('registering user in db')
-        let createdUser = await user.save();
-        res.redirect(`/user/${createdUser.id}`)
+        //todo: fix schema validation
+        await userRepo.create(user);
+        const createdUser = await userRepo.findOne({email: user.email});
+        console.log(createdUser);
+        res.redirect(`/user/${createdUser._id}`)
     } catch (e) {
         console.log(e);
         res.render('/');
@@ -36,7 +53,7 @@ router.post('/login', async (req, res) => {
     console.log(user);
     try {
         console.log('logging user')
-        let located = await User.findOne({ email: user.email }).exec();
+        let located = userRepo.findOne({ email: user.email }).exec();
         //add validation middleware for password
         res.send(located);
     } catch (e) {
@@ -48,32 +65,43 @@ router.post('/login', async (req, res) => {
 
 router.get('/:id', async (req, res, next) => {
     console.log(`logged user with ${req.params.id}`);
-    const user = await User.findById(req.params.id);
+    let query = { _id: req.params.id };
+    
+    const user = userRepo.findOne(query);
+    console.log(user);
     if (user == null) res.redirect('/');
     res.send(user);
 })
 
 router.get('/friend/:id', async (req, res, next) => {
     console.log(`getting friend details for:`)
-    const user = await User.findById(req.params.id);
-    if (user == null) res.redirect('/');
+    let query = { _id: req.params.id };
+    const user = userRepo.findOne(query);
+   // if (user == null) res.redirect('/');
     res.send(user);
+}).post('/friend/:id', async(req, res, next) =>{
+    console.log(`adding a friend for user`);
+    let query = { _id: req.params.id };
+    let socialMediaFriends = [].push(new User());//todo map to real ones
+    user.update(query,socialMediaFriends)
 })
 
 router.get('/friends/:id', async (req, res, next) => {
     console.log('list of users');
-
+    let query = { _id: req.params.id };
     //todo: get current user from cookie not from request params 
-    const currentUser = await User.findById(req.params.id);
+    const currentUser = userRepo.findOne(query);
 
     const friends = [];
     if (currentUser.socialMediaFriends.length > 0) {
         for (let friendId of currentUser.socialMediaFriends) {
-            let friend = await User.findById(friendId);//todo: add all from db here
+            let friend = userRepo.findOne({_id: friendId});//add all from db here
             friends.push(friend);
         }
     }
+    //friends = userRepo.find();
+    
     res.send(friends);
 })
 
-module.exports = router;
+export default router;

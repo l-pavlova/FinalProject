@@ -1,6 +1,4 @@
-const { Router } = require('express');
-const User = require('../DAL/models/user');
-const Message = require('../DAL/models/message');
+import { Router } from 'express';
 const router = Router();
 
 //todo::
@@ -18,4 +16,4 @@ router.get('/openMessages', (req, res, next) =>{
     
 })
 
-module.exports = router;
+export default router;
