@@ -1,6 +1,7 @@
 import  MongoClient from 'mongodb'
 import { createCollection, deleteCollection } from "./dbSchemas/collections.js";
-
+import {MONGO_HOST} from '../constants/config.js';
+import {DB_NAME} from '../constants/config.js';
 import collections from "./dbSchemas/collectionMappings.js";
 
 
@@ -39,7 +40,7 @@ Adapter.prototype.getConnection = function() {
 Adapter.prototype.initialize = async function () {
     const adapter = new Adapter();
     try {
-        await adapter.connect("mongodb://localhost:27017", "messaging-platform");
+        await adapter.connect(MONGO_HOST, DB_NAME);
         return adapter;
     } catch (err) {
         console.log(err);

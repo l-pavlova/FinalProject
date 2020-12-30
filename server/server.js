@@ -1,11 +1,12 @@
 import express from 'express';
 import { urlencoded, json } from 'body-parser';
-
 import userRouter from './controllers/userApi.js';
 import chatRouter from './controllers/messagingApi.js';
 import Adapter from './DAL/adapter.js'
-const port = process.env.port || 3001;
-//import repositories from './DAL/repository.js';
+import { SERVER_PORT } from './constants/config.js'
+
+const port = process.env.port || SERVER_PORT;
+
 const adapter = await new Adapter().initialize();
 adapter.initCollections();
 const app = express();
@@ -28,6 +29,6 @@ app.get('/', (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`App listening at http://localhost:${port}`)
 })
 
