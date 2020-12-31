@@ -1,25 +1,34 @@
-const express = require('express')
-const bodyParser = require('body-parser');
-const port = process.env.port || 3001;
+import express from 'express';
+import { urlencoded, json } from 'body-parser';
+import userRouter from './controllers/userApi.js';
+import chatRouter from './controllers/messagingApi.js';
+import Adapter from './DAL/adapter.js'
+import { SERVER_PORT } from './constants/config.js'
 
+const port = process.env.port || SERVER_PORT;
+
+const adapter = await new Adapter().initialize();
+adapter.initCollections();
 const app = express();
-const userRouter = require('./controllers/userApi');
-const chatRouter = require('./controllers/messagingApi');
-const Fascade = require('./DAL/Fascade');
 
-const fascade = new Fascade();
+app.use(urlencoded({ extended: true }));
+app.use(json());
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
+app.use('/user', (req, res, next) => {
+  req.adapter = adapter;
+  next();
+}, userRouter);
 
-app.use('/user', userRouter);
-app.use('/chat', chatRouter);
+app.use('/chat', (req, res, next) => {
+  req.adapter = adapter;
+  next();
+}, chatRouter);
 
 app.get('/', (req, res) => {
   res.send('Home')
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
+  console.log(`App listening at http://localhost:${port}`)
 })
 

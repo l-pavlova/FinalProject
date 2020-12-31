@@ -1,34 +1,13 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
-const userSchema = new Schema({
-    email: {
-        type: String,
-        required: true
-    },
-    firstName: {
-        type: String,
-        required: true
-    },
-    lastName: {
-        type: String,
-        required: true
-    },
-    age: {
-        type: Number
-    },
-    birthDate: {
-        type: Date,
-        default: Date.now()
-    },
-    password: {
-        type: String
-        //required:true
-    },
-    socialMediaFriends:  [{
-        type: Schema.Types.ObjectId,
-        required: true,
-        ref: 'User'
-    }]//contains list of friends names/ids
-});
+import mongo from "mongodb";
 
-module.exports = mongoose.model('User', userSchema);
+export default class User {
+    constructor(email, fName, lName, age, bDate, pass, friends = []) {
+        this.email = email;
+        this.firstName = fName;
+        this.lastName = lName;
+        this.password = pass;
+        this.age = new mongo.Int32(age);
+        this.birthDate = bDate;
+        this.socialMediaFriends = friends;
+    }
+}
