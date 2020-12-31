@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { Card } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
 
 import RegisterForm from './RegisterForm';
 

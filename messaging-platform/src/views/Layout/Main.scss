@@ -1,0 +1,51 @@
+@import "style.scss";
+
+.main-layout-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    background-color: $grey-background;
+
+    .navbar {
+        background-color: white;
+    }
+}
+
+.main-layout-search {
+    border-radius: 36px;
+    background-color: $grey-background;
+}
+
+.main-layout-search:focus {
+    background-color: $grey-background;
+    box-shadow: none;
+    border-color: $primary-blue;
+}
+
+.main-layout-settings-btn,
+.main-layout-notification-btn,
+.main-layout-add-btn {
+    border-radius: 50px;
+    margin-left: 5px;
+    font-size: 18px;
+    color: black; 
+    border: none;
+    background-color: $grey-background;
+}
+
+.main-layout-settings-btn:hover,
+.main-layout-notification-btn:hover,
+.main-layout-add-btn:hover {
+    background-color: $grey-darker;
+}
+
+.main-layout-settings-btn:focus,
+.main-layout-notification-btn:focus,
+.main-layout-add-btn:focus {
+    background-color: $primary-blue;
+}
+
+.navbar-logo-image {
+    height: 8%;
+    width: 8%;
+}

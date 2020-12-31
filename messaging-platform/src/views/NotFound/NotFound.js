@@ -14,3 +14,4 @@ function NotFound() {
   //ctrl+Shift+F - find all occur 
   //shift+alt+down - duplicate section
   //shift+alt+f - format code 
+  //danke lusi that was helpfull
