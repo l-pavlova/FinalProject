@@ -13,3 +13,4 @@ function NotFound() {
   //ctrl+shift+h - change all occurrences
   //shift+alt+down - duplicate section
   //shift+alt+f - format code 
+  //danke lusi that was helpfull
