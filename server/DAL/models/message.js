@@ -3,5 +3,6 @@ export default class Message{
         this.senderId = senderId;
         this.receiverId = receiverId;
         this.content = content;
+        this.sentAt = new Date();
     }
 }
