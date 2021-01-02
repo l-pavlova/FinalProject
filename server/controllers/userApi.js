@@ -31,17 +31,19 @@ router.post('/register', async (req, res) => {
         req.body.password);
 
     console.log(user);
+
     try {
         console.log('registering user in db')
         //todo: fix schema validation
-        await userRepo.create(user);
-        const createdUser = await userRepo.findOne({email: user.email});
-        console.log(createdUser);
-        res.redirect(`/user/${createdUser._id}`)
+        if (await userRepo.create(user)) {
+            const createdUser = await userRepo.findOne({ email: user.email });
+            console.log(createdUser);
+            res.redirect(`/user/${createdUser._id}`)
+        }
     } catch (e) {
         console.log(e);
-        res.render('/');
-        console.log('Failed regisetring')
+        //res.redirect('/');
+        console.log('Failed registering')
     }
 })
 
@@ -53,54 +55,71 @@ router.post('/login', async (req, res) => {
     console.log(user);
     try {
         console.log('logging user')
-        let located = userRepo.findOne({ email: user.email }).exec();
+        let query = { email: user.email};
+        const located = await userRepo.findOne(query).exec();
         //add validation middleware for password
         res.send(located);
     } catch (e) {
         console.log(e);
-        res.render('/');
+        //res.redirect('/');
         console.log('Failed logging')
     }
 })
 
+router.get('/all'), async(req, res, next) =>{//todo:fix
+    console.log('getting all users');
+    try{
+        let users = await userRepo.find({});
+        console.log(users);
+        res.send(users);
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 router.get('/:id', async (req, res, next) => {
-    console.log(`logged user with ${req.params.id}`);
+    console.log(`getting user with ${req.params.id}`);
     let query = { _id: req.params.id };
-    
-    const user = userRepo.findOne(query);
-    console.log(user);
-    if (user == null) res.redirect('/');
-    res.send(user);
+    try{
+
+        const user = await userRepo.findOne(query);
+        res.send(user);
+    }
+    catch(err) {
+        console.log(err);
+        //res.redirect('/')
+    }  
 })
 
 router.get('/friend/:id', async (req, res, next) => {
     console.log(`getting friend details for:`)
     let query = { _id: req.params.id };
     const user = userRepo.findOne(query);
-   // if (user == null) res.redirect('/');
+    // if (user == null) res.redirect('/');
     res.send(user);
-}).post('/friend/:id', async(req, res, next) =>{
+}).post('/friend/:id', async (req, res, next) => {
     console.log(`adding a friend for user`);
     let query = { _id: req.params.id };
     let socialMediaFriends = [].push(new User());//todo map to real ones
-    user.update(query,socialMediaFriends)
+    user.update(query, socialMediaFriends)
 })
 
 router.get('/friends/:id', async (req, res, next) => {
     console.log('list of users');
     let query = { _id: req.params.id };
     //todo: get current user from cookie not from request params 
-    const currentUser = userRepo.findOne(query);
+    const currentUser = await userRepo.findOne(query);
 
     const friends = [];
     if (currentUser.socialMediaFriends.length > 0) {
         for (let friendId of currentUser.socialMediaFriends) {
-            let friend = userRepo.findOne({_id: friendId});//add all from db here
+            let friend = userRepo.findOne({ _id: friendId });//add all from db here
             friends.push(friend);
         }
     }
     //friends = userRepo.find();
-    
+
     res.send(friends);
 })
 
