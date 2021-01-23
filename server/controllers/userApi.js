@@ -109,17 +109,15 @@ router.get('/friends/:id', async(req, res, next) => {
     console.log('list of users');
     //todo: get current user from cookie not from request params 
     const currentUser = await userRepo.findById(req.params.id);
-/*
+
     const friends = [];
     if (currentUser.socialMediaFriends.length > 0) {
         for (let friendId of currentUser.socialMediaFriends) {
-            let friend = userRepo.findById({ _id: friendId }); //add all from db here
+            let friend = userRepo.findById(friendId); 
             friends.push(friend);
         }
     }
-    //friends = userRepo.find();
-
-    res.send(friends);*/
+    res.send(friends);
 })
 
 export default router;

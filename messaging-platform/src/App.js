@@ -15,6 +15,7 @@ export default function App() {
         <Switch>
           <RouteWrapper path="/" exact component={Home} layout={Main}/>
           <Route path="/authorization" component={Register} />
+          <UserList></UserList>
           <Route path="/lusey" component={UserList} />
         </Switch>
       </div>

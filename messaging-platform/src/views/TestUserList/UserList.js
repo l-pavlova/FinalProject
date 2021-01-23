@@ -4,6 +4,8 @@ import { Button, ListGroup } from 'react-bootstrap';
 import requester from '../../services/requester';
 import api from '../../services/api';
 
+import './UserList.scss';
+
 function getUsers() {
     return requester(api.getFriends()).get()
         .then(data => {
@@ -35,7 +37,9 @@ const UserList = () => {
             <Button onClick={() => setCounter(counter + 1)}>+</Button>
             <span>{counter}</span>
             <Button onClick={() => setCounter(counter - 1)}>-</Button>
-            <ListGroup>{listItems}</ListGroup>
+            <div class="userList">
+                 <ListGroup>{listItems}</ListGroup>
+            </div>
         </>
     )
 }

@@ -20,19 +20,16 @@ export default class Repository {
 
     async updateOne(query, item) {
         return await this._collection.findOneAndUpdate(query, item);
-        //console.log("1 document updated");
     }
 
     async update(query, item) {
         return await this._collection.updateMany(query, item);
-        console.log("documents updated");
     }
 
     async delete(id) {
         return await this._collection.findOneAndDelete(id);
     }
 
-    //fix
     async bulkWrite(docs) {
         const bulk = this._collection.initializeOrderedBulkOp();
 
@@ -41,7 +38,7 @@ export default class Repository {
         }
 
         try { // Execute the bulk with a journal write concern
-            const result = await bulk.execute();
+           return await bulk.execute();
             return result;
         } catch (err) {
             console.log(err.stack);
