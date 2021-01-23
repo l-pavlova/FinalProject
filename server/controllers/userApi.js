@@ -62,7 +62,6 @@ router.post('/login', async(req, res, next) => {
             res.send(users[0]);
         }); 
 
-        return;
     } catch (e) {
         console.log(e);
         //res.redirect('/');
@@ -97,30 +96,30 @@ router.get('/:id', async(req, res, next) => {
 
 router.get('/friend/:id', async(req, res, next) => {
     console.log(`getting friend details for:`)
-    await userRepo.findById(req.params.id).then(user => res.send(user));
+    await userRepo.findById(req.params.id)
+    .then(user => res.send(user));
 }).post('/friend/:id', async(req, res, next) => {
     console.log(`adding a friend for user`);
     let query = { _id: req.params.id };
     let socialMediaFriends = [].push(new User()); //todo map to real ones
-    user.update(query, socialMediaFriends)
+    userRepo.updateOne(query, socialMediaFriends)
 })
 
 router.get('/friends/:id', async(req, res, next) => {
     console.log('list of users');
-    let query = { _id: req.params.id };
     //todo: get current user from cookie not from request params 
-    const currentUser = await userRepo.findOne(query);
-
+    const currentUser = await userRepo.findById(req.params.id);
+/*
     const friends = [];
     if (currentUser.socialMediaFriends.length > 0) {
         for (let friendId of currentUser.socialMediaFriends) {
-            let friend = userRepo.findOne({ _id: friendId }); //add all from db here
+            let friend = userRepo.findById({ _id: friendId }); //add all from db here
             friends.push(friend);
         }
     }
     //friends = userRepo.find();
 
-    res.send(friends);
+    res.send(friends);*/
 })
 
 export default router;
