@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Button, ListGroup } from 'react-bootstrap';
+import { ListGroup } from 'react-bootstrap';
 
 import requester from '../../services/requester';
 import api from '../../services/api';
@@ -18,7 +18,7 @@ function getUsers() {
 const users = getUsers();
 
 const UserList = () => {
-    const [counter, setCounter] = useState(() => { return 0; });
+    const [friends, setFriends] = useState(() => { return 0; });
 
     const [listItems, setItems] = useState("");
     useEffect(() => {
@@ -26,6 +26,7 @@ const UserList = () => {
             console.log(u);
             const resultArray = u.map(u => <ListGroup.Item action href="opa" variant="dark" key={u._id}> {u.firstName + u.lastName}</ListGroup.Item>);
             setItems(resultArray);
+            setFriends(resultArray.length);
       })}, []);
 
     if(listItems === "") {
@@ -34,9 +35,7 @@ const UserList = () => {
 
     return (
         <>
-            <Button onClick={() => setCounter(counter + 1)}>+</Button>
-            <span>{counter}</span>
-            <Button onClick={() => setCounter(counter - 1)}>-</Button>
+            <span>Currently you have {friends} friends</span>
             <div class="userList">
                  <ListGroup>{listItems}</ListGroup>
             </div>

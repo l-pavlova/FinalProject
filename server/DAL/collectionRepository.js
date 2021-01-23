@@ -39,7 +39,6 @@ export default class Repository {
 
         try { // Execute the bulk with a journal write concern
            return await bulk.execute();
-            return result;
         } catch (err) {
             console.log(err.stack);
             throw err;
