@@ -12,7 +12,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const RegisterForm = ({
     isLogin,
 }) => {
-    const registerUser = data => requester(api.addUser()).create(data);
+    let userAction;
+    if (isLogin) {
+        userAction = data => requester(api.logginUser()).create(data);
+    } else {
+        userAction = data => requester(api.addUser()).create(data);//todo: pass some way
+    }
     const validationFields = isLogin ? ['email', 'password'] : ['firstName', 'lastName', 'email', 'password'];
     const initialValues = isLogin 
         ? { email: '', password: '' } 
@@ -31,7 +36,7 @@ const RegisterForm = ({
                 }
             }}
             onSubmit={values => {
-                registerUser(values);
+                userAction(values);
                 console.log(true)
             }}
         > 
