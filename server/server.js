@@ -1,14 +1,28 @@
-import express from 'express';
-import { urlencoded, json } from 'body-parser';
-import userRouter from './controllers/userApi.js';
-import chatRouter from './controllers/messagingApi.js';
-import Adapter from './DAL/adapter.js'
-import { SERVER_PORT } from './constants/config.js'
+const express = require('express');
+const bodyParser = require('body-parser');
+
+const userRouter = require('./controllers/userApi.js');
+const chatRouter = require('./controllers/messagingApi.js');
+const { SERVER_PORT } = require('./constants/config.js');
+
+const Adapter = require('./DAL/adapter.js');
+
+//const socket = require('socket.io');
+
+const { urlencoded, json } = bodyParser;
 
 const port = process.env.port || SERVER_PORT;
 
-const adapter = await new Adapter().initialize();
-adapter.initCollections();
+let adapter = {};
+
+(async () => {
+  try {
+    adapter = await new Adapter().initialize();
+    adapter.initCollections();
+  } catch (e) {
+    console.log(e);
+  }
+})();
 const app = express();
 
 app.use(urlencoded({ extended: true }));

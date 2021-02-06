@@ -1,7 +1,11 @@
-import { Router } from 'express';
-import User from '../DAL/models/user.js'
-import Repository from '../DAL/collectionRepository.js'
-import collectionMap from '../DAL/dbSchemas/collectionMappings.js';
+
+const { Router } = require('express');
+const Repository = require('../DAL/collectionRepository.js');
+const collectionMap = require('../DAL/dbSchemas/collectionMappings.js');
+const bcrypt = require('bcrypt');
+
+const User = require('../DAL/models/user.js')
+
 const router = Router();
 let adapter = {};
 let userRepo = {};
@@ -22,24 +26,30 @@ router.get('/', (req, res) => {
 })
 
 router.post('/register', async (req, res) => {
-    const user = new User(
-        req.body.email,
-        req.body.firstName,
-        req.body.lastName,
-        req.body.age,
-        req.body.birthDate,
-        req.body.password);
-
-    console.log(user);
-
     try {
-        console.log('registering user in db')
-        //todo: fix schema validation
-        if (await userRepo.create(user)) {
-            const createdUser = await userRepo.findOne({ email: user.email });
-            console.log(createdUser);
-            res.redirect(`/user/${createdUser._id}`)
-        }
+        const hashedPassword = await bcrypt.hash(req.body.password, 10);
+
+        const user = new User(
+            req.body.email,
+            req.body.firstName,
+            req.body.lastName,
+            req.body.age,
+            req.body.birthDate,
+            hashedPassword);
+        
+        /*let isEmailUsed = userRepo.findOne({ email: user.email }).then(result => {
+            console.log(result);
+        });
+        console.log( 21, isEmailUsed);*/
+
+        console.log(await userRepo.create(user))
+
+        /*if (console.log(await userRepo.findOne({ email: user.email }))) {
+            console.log(45);
+
+           
+        }*/
+        res.send( { registration: true } )
     } catch (e) {
         console.log(e);
         //res.redirect('/');
@@ -123,4 +133,4 @@ router.get('/friends/:id', async (req, res, next) => {
     res.send(friends);
 })
 
-export default router;
+module.exports = router;

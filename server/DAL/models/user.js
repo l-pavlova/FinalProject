@@ -1,6 +1,6 @@
-import mongo from "mongodb";
+const mongo = require("mongodb");
 
-export default class User {
+module.exports = class User {
     constructor(email, fName, lName, age, bDate, pass, friends = []) {
         this.email = email;
         this.firstName = fName;

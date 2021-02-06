@@ -1,4 +1,4 @@
-export default class Message{
+class Message{
     constructor(senderId, receiverId, content) {
         this.senderId = senderId;
         this.receiverId = receiverId;
@@ -6,3 +6,5 @@ export default class Message{
         this.sentAt = new Date();
     }
 }
+
+module.exports = Message;

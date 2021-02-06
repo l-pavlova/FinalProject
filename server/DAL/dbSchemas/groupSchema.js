@@ -17,4 +17,4 @@ const groupSchema = {
     }
 }
 
-export default groupSchema;
+module.exports = groupSchema;

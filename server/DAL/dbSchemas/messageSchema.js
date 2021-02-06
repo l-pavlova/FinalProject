@@ -21,4 +21,4 @@ const messageSchema = {
     }
  }
 
- export default messageSchema;
+module.exports = messageSchema;

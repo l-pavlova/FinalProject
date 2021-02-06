@@ -1,4 +1,4 @@
-export default class Repository {
+module.exports = class Repository {
 
     constructor(adapter, collectionName) {
         this._collection = adapter.getConnection().collection(collectionName);
@@ -11,6 +11,7 @@ export default class Repository {
                 console.log(err);
                 return;
             }
+            //console.log(res);
             return res;
         });
         console.log("1 document inserted");
@@ -21,7 +22,7 @@ export default class Repository {
             if (err) {
                 throw err;
             }
-            console.log("found document");
+            console.log("found 1 document");
             return res;
         });
     }
