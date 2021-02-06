@@ -1,70 +1,33 @@
 module.exports = class Repository {
 
     constructor(adapter, collectionName) {
+        this.adapter = adapter;
         this._collection = adapter.getConnection().collection(collectionName);
     }
-    
-    async create(item) {
-        await this._collection.insertOne(item, function (err, res) {
-            if (err) {
-                console.log(`errroorrr`);
-                console.log(err);
-                return;
-            }
-            //console.log(res);
-            return res;
-        });
-        console.log("1 document inserted");
-    }
 
-    async findOne(id) {
-        await this._collection.findOne(id, (err, res) => {
-            if (err) {
-                throw err;
-            }
-            console.log("found 1 document");
-            return res;
-        });
+    async create(item) {
+        return await this._collection.insertOne(item);
     }
 
     async find(query) {
-        await this._collection.find(query).toArray((err, res) => {
-            if (err) {
-                throw err;
-            }
-            return res;
-        });
-        console.log("found documents");
+        return await this._collection.find(query).toArray();
+    }
+
+    async findById(id) {
+        const o_id = this.adapter.createObjectId(id);
+        return await this._collection.findOne({ '_id': o_id }); //.toArray();
     }
 
     async updateOne(query, item) {
-        await this._collection.findOneAndUpdate(query, item, (err, res) => {
-            if (err) {
-                throw err;
-            }
-            return res;//returns the updated doc
-        });
-        console.log("1 document updated");
+        return await this._collection.findOneAndUpdate(query, item);
     }
 
     async update(query, item) {
-        await this._collection.updateMany(query, item, (err, res) => {
-            if (err) {
-                throw err;
-            }
-            return res;
-        })
-        console.log("documents updated");
+        return await this._collection.updateMany(query, item);
     }
 
     async delete(id) {
-        await this._collection.findOneAndDelete(id, function (err, res) {
-            if (err) {
-                throw err;
-            }
-            return res;//returns the deleted doc
-        });
-        console.log("1 document deleted");
+        return await this._collection.findOneAndDelete(id);
     }
 
     async bulkWrite(docs) {
@@ -74,9 +37,8 @@ module.exports = class Repository {
             bulk.insert(doc);
         }
 
-        try {  // Execute the bulk with a journal write concern
-            const result = await bulk.execute();
-            return result;
+        try { // Execute the bulk with a journal write concern
+           return await bulk.execute();
         } catch (err) {
             console.log(err.stack);
             throw err;
@@ -84,13 +46,6 @@ module.exports = class Repository {
     }
 
     async sortByDate(query) {
-        const docs = await this._collection.find(query).sort({datefield: -1}).toArray((err, docs) =>{
-            if(err){
-                throw err;
-            }
-            return docs;
-        })
-        console.log('returning sorted by date');
-        return docs;
+        return await this._collection.find(query).sort({ datefield: -1 }).toArray();
     }
 }

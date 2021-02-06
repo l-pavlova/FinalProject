@@ -5,6 +5,8 @@ const api = {
     addUser: () => `/user/register`,
     logginUser: () => `/user/login`,
     getFriend: friendId => `/user/friend/${friendId}`,
+    getFriends: () => `/user/all`,
+    getFriendsList: friendId  => `/user//friends/${friendId}`,
     //MessagingControler
     getChat: chatId => `/chat/${chatId}`,
     sendMessage: () => `/chat/sendMessage`,
