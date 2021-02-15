@@ -8,7 +8,7 @@ import './UserDetails.scss';
 function getUserDetails(id) {
     return requester(api.getUser(id)).get()
         .then(data => {
-            console.log(data);
+            //console.log(data);
             return data;
         });
 }
@@ -19,7 +19,7 @@ const UserDetails = () => {
 
     useEffect(() => {
         const user = getUserDetails('600c494514ab581768a1bc24').then(u => {
-            console.log(u);
+            //console.log(u);
             setName(`${u.firstName} ${u.lastName}`);
             setAge(u.age);
         })

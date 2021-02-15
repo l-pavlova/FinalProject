@@ -12,6 +12,7 @@ const RegisterFormView = ({
     touched,
     errors,
     isLogin,
+    loading,
 }) => {
     return (
         <Form noValidate onSubmit={handleSubmit}>
@@ -71,7 +72,7 @@ const RegisterFormView = ({
                 />
                 <ErrorMessage name="password" component="div" className="invalid-field-message"/>
             </Form.Group>
-            <Button variant="primary" type="submit" className="register-form-btn">
+            <Button disabled={loading} variant="primary" type="submit" className="register-form-btn">
                 {isLogin ? "Log In" : "Sign Up"}
             </Button>
         </Form>
