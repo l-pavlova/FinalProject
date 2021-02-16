@@ -9,8 +9,8 @@ import './UserList.scss';
 function getUsers() {
     return requester(api.getFriends()).get()
         .then(data => {
-            console.log('fetching');
-            console.log(data);
+            //console.log('fetching');
+            //console.log(data);
             return data;
         });
 }
@@ -23,7 +23,7 @@ const UserList = () => {
     const [listItems, setItems] = useState("");
     useEffect(() => {
         users.then(u => {
-            console.log(u);
+            //console.log(u);
             const resultArray = u.map(u => <ListGroup.Item action href="opa" variant="dark" key={u._id}> {u.firstName + u.lastName}</ListGroup.Item>);
             setItems(resultArray);
             setFriends(resultArray.length);

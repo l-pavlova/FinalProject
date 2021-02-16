@@ -1,12 +1,24 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
+import { login, signup } from '../../../utils/authFunctions' 
+import authService from '../../../services/authService' 
 import RegisterForm from './RegisterForm';
 
 import './Register.scss'
 
-const Register = () => {
-
+const Register = (
+) => {
     const [isLogin, setIsLogin] = useState(true);
+
+    const handleRegister = async (userData) => {
+        await signup(userData.email, userData.password);
+        await authService.register(userData);
+        setIsLogin(true);
+    };
+
+    const handleLogin = async (userData) => {
+        await login(userData.email, userData.password);
+    }
 
     return (
         <div className="register-wrapper">
@@ -20,6 +32,8 @@ const Register = () => {
             <div className="register-form-wrapper">
                 <RegisterForm
                     isLogin={isLogin}
+                    handleRegister={handleRegister}
+                    handleLogin={handleLogin}
                 />
             </div>
         </div>

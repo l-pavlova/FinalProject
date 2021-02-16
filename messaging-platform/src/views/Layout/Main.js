@@ -1,17 +1,25 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 
-import Logo from '../../assets/logo.svg'
+import { logout } from '../../utils/authFunctions';
+import Logo from '../../assets/logo.svg';
 
-import { Navbar, Form, Nav, NavDropdown, Image } from 'react-bootstrap';
+import { Navbar, Form, Nav, DropdownButton, Image, Dropdown } from 'react-bootstrap';
 import { ChatDotsFill, Plus, BellFill, GearFill } from 'react-bootstrap-icons';
 
 import "./Main.scss";
+import { useHistory } from 'react-router';
 
 const Main = ({
     children
 }) => {
-    
+
+    /*<Button className="main-layout-settings-btn" onClick={logout}>
+        <GearFill />
+    </Button>*/
+
+    const history = useHistory();
+
     return (
         <div className="main-layout-wrapper">
             <Navbar className="navbar" sticky="top">
@@ -20,22 +28,35 @@ const Main = ({
                         <Image src={Logo} fluid />
                     </Navbar.Brand>
                     <Form inline>
-                        <Form.Control type="text" placeholder="Search" className="main-layout-search"/>
+                        <Form.Control type="text" placeholder="Search" className="main-layout-search" />
                     </Form>
                 </Navbar.Collapse>
                 <Nav className="mr-auto">
-                    <Button className="main-layout-add-btn">
-                        <Plus className="plus-icon"/>
-                    </Button>
-                    <Button className="main-layout-notification-btn">
-                        <BellFill/>
-                    </Button>
-                    <Button className="main-layout-settings-btn">
-                        <GearFill/>
-                    </Button>
+                    <DropdownButton 
+                        className="main-layout-add-btn"
+                        menuAlign={{ lg: 'right' }}
+                        variant={'primary'}
+                        title={<Plus/>} 
+                    >
+                    </DropdownButton>
+                    <DropdownButton 
+                        className="main-layout-notification-btn"
+                        menuAlign={{ lg: 'right' }}
+                        variant={'primary'}
+                        title={<BellFill/>} 
+                    >
+                    </DropdownButton>
+                    <DropdownButton 
+                        className="main-layout-settings-btn"
+                        menuAlign={{ lg: 'right' }}
+                        variant={'primary'}
+                        title={<GearFill/>} 
+                    >
+                        <Dropdown.Item show={true} eventKey="1" onClick={logout}>Logout</Dropdown.Item>
+                    </DropdownButton>
                 </Nav>
             </Navbar>
-           {children}
+            {children}
         </div>
     )
 }
