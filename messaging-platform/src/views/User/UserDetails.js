@@ -22,6 +22,7 @@ const UserDetails = () => {
             //console.log(u);
             setName(`${u.firstName} ${u.lastName}`);
             setAge(u.age);
+            console.log(process.env.REACT_APP_FIREBASE_API_KEY);
         })
     }, []);
     return (

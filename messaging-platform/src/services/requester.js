@@ -10,7 +10,7 @@ const urlBuilder = (...paths) => {
 }
 
 const initRequest = async (contentType, method, body) => {
-    refreshToken();
+    //refreshToken();
     return {
         method,
         headers: {
