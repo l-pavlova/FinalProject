@@ -8,11 +8,15 @@ import './UserDetails.scss';
 import UploadPicture from './UploadPicture.js';
 
 function getUserDetails(id) {
+    fetch(`user/${id}`, {
+      }).then((response) =>
+      console.log("getting" + response))
+    /*
     return requester(api.getUser(id)).get()
         .then(data => {
             console.log(data);
             return data;
-        });
+        });*/
 }
 
 const UserDetails = () => {
@@ -20,11 +24,11 @@ const UserDetails = () => {
     const [userAge, setAge] = useState(0);
 
     useEffect(() => {
-        const user = getUserDetails('600c494514ab581768a1bc24').then(u => {//todo: get userId from cookie
-            console.log(u);
+        const user = getUserDetails('600c494514ab581768a1bc24');/*.then(u => {//todo: get userId from cookie
+            console.log(u.profilePic);
             setName(`${u.firstName} ${u.lastName}`);
             setAge(u.age);
-        })
+        })*/
     }, []);
     return (
         <>

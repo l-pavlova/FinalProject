@@ -20,7 +20,16 @@ export default class Repository {
 
     async updateOne(id, item) {
         const o_id = this.adapter.createObjectId(id);
-        return await this._collection.findOneAndUpdate(query, item);
+        const filter = { '_id': o_id };
+        const options = { upsert: true };
+        const updateDoc = {
+            $set: {
+                profilePic: item
+            }
+        }
+        const result = await this._collection.updateOne(filter, updateDoc, options);
+        console.log(result);
+        return result;
     }
 
     async update(query, item) {
@@ -39,7 +48,7 @@ export default class Repository {
         }
 
         try { // Execute the bulk with a journal write concern
-           return await bulk.execute();
+            return await bulk.execute();
         } catch (err) {
             console.log(err.stack);
             throw err;
