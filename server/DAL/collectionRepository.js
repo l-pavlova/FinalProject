@@ -18,7 +18,8 @@ export default class Repository {
         return await this._collection.findOne({ '_id': o_id }); //.toArray();
     }
 
-    async updateOne(query, item) {
+    async updateOne(id, item) {
+        const o_id = this.adapter.createObjectId(id);
         return await this._collection.findOneAndUpdate(query, item);
     }
 

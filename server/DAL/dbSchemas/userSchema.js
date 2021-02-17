@@ -26,7 +26,10 @@ const userSchema = {
         },
         socialMediaFriends: {
             bsonType: ["array"]
-        }//contains list of friends names/ids
+        },//contains list of friends names/ids
+        profilePic: {
+            bsonType: 'binData'
+        }
     }
 }
 

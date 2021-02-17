@@ -1,7 +1,7 @@
 import mongo from "mongodb";
 
 export default class User {
-    constructor(email, fName, lName, age, bDate, pass, friends = []) {
+    constructor(email, fName, lName, age, bDate, pass, friends = [], pic = null) {
         this.email = email;
         this.firstName = fName;
         this.lastName = lName;
@@ -9,5 +9,6 @@ export default class User {
         this.age = new mongo.Int32(age);
         this.birthDate = bDate;
         this.socialMediaFriends = friends;
+        this.profilePic = pic;
     }
 }

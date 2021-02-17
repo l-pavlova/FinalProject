@@ -14,6 +14,7 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 app.use(json());
 
+
 app.use('/user', (req, res, next) => {
   req.adapter = adapter;
   next();

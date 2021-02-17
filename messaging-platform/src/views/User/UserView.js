@@ -1,16 +1,17 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
+
 import UserDetails from './UserDetails'
 import UserList from './UserList'
 
 import './UserView.scss';
 
 const UserView = () => {
-    return(
+    return (
         <>
-        <div role="grid" class="layout">
-        <UserList></UserList>
-        <UserDetails></UserDetails>
-        </div>
+            <div role="grid" class="layout">
+                <UserList></UserList>
+                <UserDetails></UserDetails>
+            </div>
         </>
     )
 }

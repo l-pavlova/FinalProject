@@ -1,6 +1,8 @@
-import { Router } from 'express';
+import { response, Router } from 'express';
 import User from '../DAL/models/user.js'
 import Repository from '../DAL/collectionRepository.js'
+import cookieParser from 'cookie-parser';
+
 const router = Router();
 let adapter = {};
 let userRepo = {};
@@ -9,6 +11,8 @@ function initializeRepo(adapter, collection) {
     console.log(`creating repository for ${collection}`)
     userRepo = new Repository(adapter, collection);
 }
+
+router.use(cookieParser());
 
 router.use((req, res, next) => {
     initializeRepo(req.adapter, "User");
@@ -86,7 +90,12 @@ router.get('/:id', async(req, res, next) => {
     try {
         await userRepo.findById(req.params.id).then((user) => {
             console.log(user);
-            res.send(user)
+            res.status(200).cookie('userId', user._id, {
+                sameSite:'strict', 
+                path: '/',
+                expires: new Date(new Date().getTime() + 100000),
+                httpOnly:true
+            }).send(user)
         });
     } catch (err) {
         console.log(err);
@@ -118,6 +127,15 @@ router.get('/friends/:id', async(req, res, next) => {
         }
     }
     res.send(friends);
+})
+
+router.post('/uploadPicture', async(req, res, next) => {
+    console.log('in surver upload');
+   
+    const profilePic = req.body.file;
+    const id = req.body.id;
+
+    await userRepo.updateOne(id, profilePic);
 })
 
 export default router;

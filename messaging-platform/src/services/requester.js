@@ -12,6 +12,7 @@ const urlBuilder = (...paths) => {
 const initRequest = async (contentType, method, body) => {
     return {
         method,
+        credentials: 'include',
         headers: {
             ...(contentType && { "Content-Type": contentType })
         },
