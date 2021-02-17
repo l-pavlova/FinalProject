@@ -1,11 +1,11 @@
-import MongoClient from 'mongodb'
-import { createCollection, deleteCollection } from "./dbSchemas/collections.js";
-import { MONGO_HOST } from '../constants/config.js';
-import { DB_NAME } from '../constants/config.js';
-import collections from "./dbSchemas/collectionMappings.js";
+const  MongoClient = require('mongodb');
+const { createCollection, deleteCollection } = require("./dbSchemas/collections.js");
+const {MONGO_HOST} = require('../constants/config.js');
+const {DB_NAME} = require('../constants/config.js');
+const collections = require("./dbSchemas/collectionMappings.js");
 
 
-export default class Adapter {
+class Adapter {
     constructor() {
         this.dbClient = MongoClient;
         this.db = null;
@@ -51,3 +51,5 @@ Adapter.prototype.initialize = async function() {
 Adapter.prototype.createObjectId = function(id) {
     return new MongoClient.ObjectID(id);
 }
+
+module.exports = Adapter;

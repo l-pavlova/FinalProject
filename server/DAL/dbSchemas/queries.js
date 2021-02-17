@@ -1,8 +1,10 @@
-export function query(db, collectionName, operation, toArray = false, query = null, sort = null, values = null, limit = null) {
+function query(db, collectionName, operation, toArray = false, query = null, sort = null, values = null, limit = null) {
    let args = Array.from(arguments);
         let additionals=[];
-        args.forEach(element => {if(element!=null)
+        args.forEach(element => {
+          if (element!=null) {
             additionals.push(element);
+          }
         });
         console.log(additionals);
         console.log(...additionals);
@@ -35,3 +37,5 @@ export function query(db, collectionName, operation, toArray = false, query = nu
   });
 
   */
+
+  module.exports = query;

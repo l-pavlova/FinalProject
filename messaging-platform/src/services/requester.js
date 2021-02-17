@@ -1,5 +1,5 @@
 import { HOST } from "../constants/env.js";
-import { METHODS, request } from "http";
+import { refreshToken } from '../utils/authFunctions';
 
 const urlBuilder = (...paths) => {
     const url = paths
@@ -10,6 +10,7 @@ const urlBuilder = (...paths) => {
 }
 
 const initRequest = async (contentType, method, body) => {
+    //refreshToken();
     return {
         method,
         credentials: 'include',

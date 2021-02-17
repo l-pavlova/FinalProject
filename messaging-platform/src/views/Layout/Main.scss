@@ -36,16 +36,16 @@
 .main-layout-settings-btn:hover,
 .main-layout-notification-btn:hover,
 .main-layout-add-btn:hover {
-    background-color: $grey-darker;
+    background-color: $grey-darker !important;
 }
 
 .main-layout-settings-btn:focus,
 .main-layout-notification-btn:focus,
 .main-layout-add-btn:focus {
-    background-color: $primary-blue;
+    background-color: $primary-blue !important;
 }
 
 .navbar-logo-image {
-    height: 8%;
-    width: 8%;
+    height: 8% !important;
+    width: 8% !important;
 }

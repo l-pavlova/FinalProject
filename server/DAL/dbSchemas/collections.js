@@ -1,4 +1,4 @@
-export function createCollection(db, collectionName, schema) {
+function createCollection(db, collectionName, schema) {
     console.log(`in create collection:${collectionName} schema:${schema}`);
     db.createCollection(collectionName, {
             validator: {
@@ -9,11 +9,15 @@ export function createCollection(db, collectionName, schema) {
         .catch(() => console.log("already exists"))
 }
 
-export function deleteCollection(db, colName) {
+function deleteCollection(db, colName) {
     db.collection(colName).drop((err, delOK) => {
         if (err)
             throw err;
         if (delOK)
             console.log("Collection deleted");
     });
+}
+module.exports = {
+    createCollection,
+    deleteCollection
 }

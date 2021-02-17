@@ -1,4 +1,4 @@
-export default class Repository {
+module.exports = class Repository {
 
     constructor(adapter, collectionName) {
         this.adapter = adapter;
