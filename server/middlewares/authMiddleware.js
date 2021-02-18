@@ -15,8 +15,6 @@ const hasToken = (req, res, next) => {
         req.authToken = req.headers.cookie.split('=')[1];
     }
 
-    //console.log(0);
-
     next();
 };
 
@@ -26,10 +24,9 @@ const verifyToken = async (req, res, next) => {
         const userInfo = await firebaseAdmin.auth().verifyIdToken(authToken);
         req.authId = userInfo.uid;
 
-        console.log(userInfo);
-
         next();
     } catch (error) {
+        console.log(error)
         res.status(401).send(error);
     }
 };
