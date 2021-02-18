@@ -28,7 +28,6 @@ router.post('/register', async (req, res) => {
     );
 
     try {
-        console.log('registering user in db')
         //todo: fix schema validation
         const userId = await userRepo.create(user)
             .then(created => {
@@ -36,7 +35,6 @@ router.post('/register', async (req, res) => {
             });
 
         const createdUser = await userRepo.findById(userId);
-        console.log(createdUser);
         res.json(`Succeed`);
     } catch (e) {
         console.log(e);

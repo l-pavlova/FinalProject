@@ -1,43 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import { ListGroup } from 'react-bootstrap';
 
-import requester from '../../services/requester';
-import api from '../../services/api';
+import userService from '../../services/userService';
 
 import './UserList.scss';
 
-function getUsers() {
-    return requester(api.getFriends()).get()
-        .then(data => {
-            //console.log('fetching');
-            //console.log(data);
-            return data;
-        });
-}
-
-const users = getUsers();
-
 const UserList = () => {
-    const [friends, setFriends] = useState(() => { return 0; });
+    const [friends, setFriends] = useState([]);
 
-    const [listItems, setItems] = useState("");
-    useEffect(() => {
-        users.then(u => {
-            //console.log(u);
-            const resultArray = u.map(u => <ListGroup.Item action href="opa" variant="dark" key={u._id}> {u.firstName + u.lastName}</ListGroup.Item>);
-            setItems(resultArray);
-            setFriends(resultArray.length);
-      })}, []);
-
-    if(listItems === "") {
-        return <h2>No friends for you.</h2>
+    const getUsers = async () => {
+        const users = await userService.getUsers().then(data => data);
+        localStorage.setItem('users', JSON.stringify(users));
     }
+
+    useEffect(() => {
+        getUsers();
+        const users = JSON.parse(localStorage.getItem('users'));
+        setFriends(users);
+        //console.log(users);
+    }, []);
 
     return (
         <>
-            <span>Currently you have {friends} friends</span>
-            <div class="userList">
-                 <ListGroup>{listItems}</ListGroup>
+            <div className="userList">
+                <ListGroup>
+                    {friends.length > 0 
+                        ? friends.map(u =>
+                            <ListGroup.Item action href={`/chat/${u._id}`} variant="dark" key={u._id}>
+                                {u.firstName + u.lastName}
+                            </ListGroup.Item>)
+                        : "No users"
+                    }
+                </ListGroup>
             </div>
         </>
     )

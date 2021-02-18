@@ -2,6 +2,7 @@
 const api = {
     //userControler
     getUser: userId => `/users/${userId}`,
+    getUserByEmail: userEmail => `/users/email/${userEmail}`,
     addUser: () => `/auth/register`,
     logginUser: () => `/users/login`,
     getFriend: friendId => `/users/friend/${friendId}`,

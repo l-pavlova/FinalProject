@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useAuth } from '../../contexts/AuthContext';
-import api from '../../services/api';
-import requester from '../../services/requester';
+import UserList from '../User/UserList';
 
 const Home = ({
 
@@ -16,6 +15,7 @@ const Home = ({
 
   return (
     <div className="Home">
+      <UserList/>
       <header className="Home-header">
       </header>
     </div>
