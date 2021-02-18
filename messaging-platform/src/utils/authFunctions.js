@@ -22,7 +22,7 @@ export const signup = async (email, password) => {
     }
 };
 
-export const refreshToken = () => {
+/*export const refreshToken = () => {
     return new Promise((resolve, reject) => {
         auth.onAuthStateChanged(async user => {
             let newToken;
@@ -35,7 +35,7 @@ export const refreshToken = () => {
             resolve(newToken);
         });
     });
-}
+}*/
 
 export const logout = async () => {
     await auth.signOut();

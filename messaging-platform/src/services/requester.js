@@ -1,5 +1,5 @@
 import { HOST } from "../constants/env.js";
-import { refreshToken } from '../utils/authFunctions';
+import { logout } from '../utils/authFunctions';
 
 const urlBuilder = (...paths) => {
     const url = paths
@@ -10,7 +10,7 @@ const urlBuilder = (...paths) => {
 }
 
 const initRequest = async (contentType, method, body) => {
-    refreshToken();
+    //refreshToken();
     return {
         method,
         headers: {
@@ -22,11 +22,28 @@ const initRequest = async (contentType, method, body) => {
 
 const initBaseRequest = initRequest.bind(null, "application/json");
 
+const responseHandler = async res => {
+    if (!res.ok) {
+        if (res.status === 401) {
+            let response = await res.json();
+
+            if(response.error?.details !== 'Specify id token for this request!') {
+                logout();
+            }
+
+            throw response;
+        }
+
+        throw await res.json();
+    }
+    return res.json();
+};
+
 const requester = (endpoint) => ({
-    get: () => initBaseRequest('GET').then(options => fetch(urlBuilder(HOST, endpoint), options)).then(response => response.json()),
-    create: data => initBaseRequest('POST', JSON.stringify(data)).then(options => fetch(urlBuilder(HOST, endpoint), options)).then(response => response.json()),
-    update: data => initBaseRequest('PUT', JSON.stringify(data)).then(options => fetch(urlBuilder(HOST, endpoint), options)).then(response => response.json()),
-    delete: () => initBaseRequest('DELETE').then(options => fetch(urlBuilder(HOST, endpoint), options)).then(response => response.json()),
+    get: () => initBaseRequest('GET').then(options => fetch(urlBuilder(HOST, endpoint), options)).then(responseHandler),
+    create: data => initBaseRequest('POST', JSON.stringify(data)).then(options => fetch(urlBuilder(HOST, endpoint), options)).then(responseHandler),
+    update: data => initBaseRequest('PUT', JSON.stringify(data)).then(options => fetch(urlBuilder(HOST, endpoint), options)).then(responseHandler),
+    delete: () => initBaseRequest('DELETE').then(options => fetch(urlBuilder(HOST, endpoint), options)).then(responseHandler),
 })
 
 export default requester;

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Formik } from 'formik';
 
-
 import RegisterFormView from './RegisterFormView';
 import { validateRequestField, validateEmail, validateLength } from '../../../utils/validators';
 
