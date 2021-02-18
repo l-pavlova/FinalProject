@@ -6,15 +6,10 @@ function query(db, collectionName, operation, toArray = false, query = null, sor
             additionals.push(element);
           }
         });
-        console.log(additionals);
-        console.log(...additionals);
 
 
     db.collection(collectionName)[operation](...additionals, function (err, result) {
-        console.log(additionals);
-        console.log(...additionals);
         if (err) { reject(err); return; }
-        console.log(result.name);
         return result;
     })
 }

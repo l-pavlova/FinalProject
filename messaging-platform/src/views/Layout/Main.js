@@ -52,7 +52,7 @@ const Main = ({
                         variant={'primary'}
                         title={<GearFill/>} 
                     >
-                        <Dropdown.Item show={true} eventKey="1" onClick={logout}>Logout</Dropdown.Item>
+                        <Dropdown.Item eventKey="1" onClick={logout}>Logout</Dropdown.Item>
                     </DropdownButton>
                 </Nav>
             </Navbar>

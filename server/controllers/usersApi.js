@@ -20,12 +20,24 @@ router.use((req, res, next) => {
 })
 
 router.get('/', (req, res) => {
-    console.log(`in user home`);
+    //console.log(`in user home`);
     res.send('user home');
 })
 
+router.get('/email/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        await userRepo.find({email: email}).then((result) => {
+            console.log(result);
+            res.send(result);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 router.get('/all', async (req, res, next) => {
-    console.log('getting all users');
+    //console.log('getting all users');
     try {
         await userRepo.find().then((result) => {
             res.send(result);
@@ -36,10 +48,9 @@ router.get('/all', async (req, res, next) => {
 })
 
 router.get('/:id', async (req, res, next) => {
-    console.log(`getting user with id: ${req.params.id}`);
+    //console.log(`getting user with id: ${req.params.id}`);
     try {
         await userRepo.findById(req.params.id).then((user) => {
-            console.log(user);
             res.send(user)
         });
     } catch (err) {
@@ -49,18 +60,18 @@ router.get('/:id', async (req, res, next) => {
 })
 
 router.get('/friend/:id', async (req, res, next) => {
-    console.log(`getting friend details for:`)
+    //console.log(`getting friend details for:`)
     await userRepo.findById(req.params.id)
         .then(user => res.send(user));
 }).post('/friend/:id', async (req, res, next) => {
-    console.log(`adding a friend for user`);
+    //console.log(`adding a friend for user`);
     let query = { _id: req.params.id };
     let socialMediaFriends = [].push(new User()); //todo map to real ones
     userRepo.updateOne(query, socialMediaFriends)
 })
 
 router.get('/friends/:id', async (req, res, next) => {
-    console.log('list of users');
+    //console.log('list of users');
     //todo: get current user from cookie not from request params 
     const currentUser = await userRepo.findById(req.params.id);
 
