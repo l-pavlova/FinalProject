@@ -24,20 +24,12 @@ const UserDetails = () => {
     const [userAge, setAge] = useState(0);
 
     useEffect(() => {
-<<<<<<< HEAD
-        const user = getUserDetails('600c494514ab581768a1bc24');/*.then(u => {//todo: get userId from cookie
-            console.log(u.profilePic);
-            setName(`${u.firstName} ${u.lastName}`);
-            setAge(u.age);
-        })*/
-=======
         const user = getUserDetails('600c494514ab581768a1bc24').then(u => {
             //console.log(u);
             setName(`${u.firstName} ${u.lastName}`);
             setAge(u.age);
             console.log(process.env.REACT_APP_FIREBASE_API_KEY);
         })
->>>>>>> main
     }, []);
     return (
         <>

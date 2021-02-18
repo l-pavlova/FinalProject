@@ -12,25 +12,7 @@ const app = express();
 
 app.use(urlencoded({ extended: true }));
 app.use(json());
-<<<<<<< HEAD
-
-
-app.use('/user', (req, res, next) => {
-  req.adapter = adapter;
-  next();
-}, userRouter);
-
-app.use('/chat', (req, res, next) => {
-  req.adapter = adapter;
-  next();
-}, chatRouter);
-
-app.get('/', (req, res) => {
-  res.send('Home')
-});
-=======
 app.use(routes);
->>>>>>> main
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`)
