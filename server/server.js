@@ -24,6 +24,8 @@ const io = socketio(server, {
   }
 });
 
+
+
 app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
@@ -48,10 +50,16 @@ io.on('connection', socket => {
     console.log('user logout')
   })
 });
+if (process.env.NODE_ENV === 'production') {
+  // Serve any static files
+  app.use(express.static(path.join(__dirname, 'messaging-platform/build')));
+// Handle React routing, return all requests to React app
+  app.get('*', function(req, res) {
+    console.log('it works');
+    res.sendFile(path.join(__dirname, 'messaging-platform/build', 'index.html'));
+  });
+}
 
-app.get('*', (req, res) => {
-  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
-});
 server.listen(port, () => {
   console.log('in server')
   console.log(`App listening at http://localhost:${port}`)
