@@ -28,7 +28,7 @@ app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(routes);
-app.use(express.static(path.join(__dirname, 'build')))
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 io.on('connection', socket => {
   console.log("io connected");
@@ -48,10 +48,10 @@ io.on('connection', socket => {
     console.log('user logout')
   })
 });
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'build', 'index.html'))
-})
 
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '..', 'build', 'index.html'));
+});
 server.listen(port, () => {
   console.log('in server')
   console.log(`App listening at http://localhost:${port}`)
