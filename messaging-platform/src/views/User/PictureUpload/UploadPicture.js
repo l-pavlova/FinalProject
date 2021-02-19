@@ -10,7 +10,7 @@ const UploadPicture = ({ }) => {
 
     const [data, getImage] = useState({ name: "", path: "" });
     const { currentUser } = useAuth();
-    console.log(">>>>>>>>>>>>>>>>>>>>>>");
+ 
     console.log(currentUser);
     const el = useRef();
 
