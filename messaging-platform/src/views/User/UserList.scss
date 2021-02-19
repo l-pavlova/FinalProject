@@ -8,3 +8,10 @@
     font-size: inherit;
     font-size: 1vw;
 }
+
+.list-group{
+    max-height: 500px;
+    margin-bottom: 10px;
+    overflow:scroll;
+    -webkit-overflow-scrolling: touch;
+}
