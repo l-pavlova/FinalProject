@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
 var cors = require('cors')
+const path = require('path')
 const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 
@@ -8,6 +9,7 @@ const { SERVER_PORT } = require('./constants/config.js');
 const { REACT_PORT } = require('../messaging-platform/src/constants/env.js');
 const routes = require('./routes');
 const { callbackify } = require('util');
+
 
 const { urlencoded, json } = bodyParser;
 
@@ -26,9 +28,10 @@ app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(routes);
+app.use(express.static(path.join(__dirname, 'build')))
 
 io.on('connection', socket => {
-  console.log("Daaaa");
+  console.log("io connected");
 
   socket.on('join', (user, callback) => {
     console.log(user);
@@ -45,8 +48,12 @@ io.on('connection', socket => {
     console.log('user logout')
   })
 });
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'))
+})
 
 server.listen(port, () => {
+  console.log('in server')
   console.log(`App listening at http://localhost:${port}`)
 })
 
