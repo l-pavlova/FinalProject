@@ -21,6 +21,7 @@ const hasToken = (req, res, next) => {
 const verifyToken = async (req, res, next) => {
     try {
         const { authToken } = req;
+        console.log(authToken);
         const userInfo = await firebaseAdmin.auth().verifyIdToken(authToken);
         req.authId = userInfo.uid;
 
@@ -32,6 +33,6 @@ const verifyToken = async (req, res, next) => {
 };
 
 router.use(hasToken);
-router.use(verifyToken);
+//router.use(verifyToken);
 
 exports.isAuthenticated = router;

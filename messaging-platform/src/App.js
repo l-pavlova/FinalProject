@@ -12,6 +12,7 @@ import './App.scss';
 import RouteWrapper from "./views/Layout/RouteWrapper.js";
 
 export default function App() {
+
   return (
     <Router>
       <div className="App">

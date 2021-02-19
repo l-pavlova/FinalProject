@@ -6,6 +6,7 @@ import UserList from '../User/UserList';
 import ChatField from './ChatField'
 import { useAuth } from '../../contexts/AuthContext';
 import UserDetails from '../User/UserDetails';
+import UserGroups from '../User/UserGroups';
 
 let socket;
 
@@ -38,6 +39,7 @@ const ChatRoom = ({
     return (
         <div className="chat-room">
             <UserList></UserList>
+            <UserGroups></UserGroups>
             <div className="chat-field">
                 <ChatField></ChatField>
             </div>

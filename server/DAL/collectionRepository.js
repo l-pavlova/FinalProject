@@ -18,8 +18,18 @@ module.exports = class Repository {
         return await this._collection.findOne({ '_id': o_id }); //.toArray();
     }
 
-    async updateOne(query, item) {
-        return await this._collection.findOneAndUpdate(query, item);
+    async updateOne(id, item) {
+        const o_id = this.adapter.createObjectId(id);
+        const filter = { '_id': o_id };
+        const options = { upsert: true };
+        const updateDoc = {
+            $set: {
+                profilePic: item
+            }
+        }
+        const result = await this._collection.updateOne(filter, updateDoc, options);
+        console.log(result);
+        return result;
     }
 
     async update(query, item) {
@@ -38,7 +48,7 @@ module.exports = class Repository {
         }
 
         try { // Execute the bulk with a journal write concern
-           return await bulk.execute();
+            return await bulk.execute();
         } catch (err) {
             console.log(err.stack);
             throw err;

@@ -7,4 +7,10 @@ const userService = {
     getUsers: () => requester(api.getFriends()).get(),
 }
 
+
+export const groupService = {
+    getGroup: chatId => requester(api.getChat(chatId)).get()
+}
+
+
 export default userService;

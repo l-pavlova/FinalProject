@@ -1,13 +1,15 @@
 import firebase from "firebase/app";
 import "firebase/auth";
+import { config } from 'dotenv';
+config();
 
 const firebaseApp = firebase.initializeApp({
-    apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
-    authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN,
-    projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-    storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET,
-    messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID,
-    appId: process.env.REACT_APP_FIREBASE_APP_ID,
+    apiKey: "AIzaSyCxB8d0jS2h_vkvk8TnqD4vqXhto_t6geM",
+    authDomain: "messenger-app-test-ce448.firebaseapp.com",
+    projectId: "messenger-app-test-ce448",
+    storageBucket: "messenger-app-test-ce448.appspot.com",
+    messagingSenderId: "861606702743",
+    appId: "1:861606702743:web:cd3b2a0414da0c479b03d2"
 });
 
 export const auth = firebaseApp.auth();
