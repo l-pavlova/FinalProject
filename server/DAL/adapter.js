@@ -1,6 +1,6 @@
 const  MongoClient = require('mongodb');
 const { createCollection, deleteCollection } = require("./dbSchemas/collections.js");
-const {MONGO_HOST} = require('../constants/config.js');
+const {MONGO_HOST, MONGO_PROD} = require('../constants/config.js');
 const {DB_NAME} = require('../constants/config.js');
 const collections = require("./dbSchemas/collectionMappings.js");
 
