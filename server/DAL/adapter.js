@@ -1,4 +1,4 @@
-const  MongoClient = require('mongodb');
+const  {MongoClient} = require('mongodb');
 const { createCollection, deleteCollection } = require("./dbSchemas/collections.js");
 const {MONGO_HOST, MONGO_PROD} = require('../constants/config.js');
 const {DB_NAME} = require('../constants/config.js');
@@ -13,10 +13,11 @@ class Adapter {
 }
 
 Adapter.prototype.connect = async function connect(connectionString, dbname) {
-    await this.dbClient.connect(connectionString, {
+    var client = new MongoClient(connectionString, {
         useNewUrlParser: true,
-        useUnifiedTopology: true
-    }).then(client => {
+        useUnifiedTopology: false
+    });
+    await client.connect().then(client => {
         console.log(`Connected to database ${dbname}`);
         this.db = client.db(dbname);
         return this.db;
@@ -24,6 +25,17 @@ Adapter.prototype.connect = async function connect(connectionString, dbname) {
         console.log(err);
         return Promise.reject(err);
     });
+    /*await this.dbClient.connect(connectionString, {
+        useNewUrlParser: true,
+        useUnifiedTopology: false
+    }).then(client => {
+        console.log(`Connected to database ${dbname}`);
+        this.db = client.db(dbname);
+        return this.db;
+    }).catch((err) => {
+        console.log(err);
+        return Promise.reject(err);
+    });*/
 }
 
 Adapter.prototype.initCollections = function() {
@@ -39,8 +51,10 @@ Adapter.prototype.getConnection = function() {
 
 Adapter.prototype.initialize = async function() {
     const adapter = new Adapter();
+    console.log(MONGO_PROD);
+    const PROD = "mongodb+srv://admin:FKpPjBy1H15EJ9p9@cluster0.nvd7u.mongodb.net/messagingAppDb?retryWrites=true&w=majority&authSource=admin"
     try {
-        await adapter.connect(MONGO_PROD, DB_NAME);
+        await adapter.connect(PROD, DB_NAME);
         return adapter;
     } catch (err) {
         console.log(err);
