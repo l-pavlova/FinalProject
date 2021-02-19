@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const ChatInput = ({
     submitHandler,
@@ -13,12 +13,15 @@ const ChatInput = ({
 
     return (
         <form className="chat-input" onSubmit={submitHandler}>
-            <input type="text"
+            <input
+                className="text-field"
+                type="text"
                 onChange={textChangeHandler}
                 value={message}
                 onKeyPress={event => event.key === 'Enter' ? sendMessage(event) : null}
                 placeholder="Write a message..."
-                required />
+                required
+            />
         </form>
     );
 }

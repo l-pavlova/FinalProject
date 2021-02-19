@@ -4,6 +4,8 @@ import { ListGroup } from 'react-bootstrap';
 
 import { useAuth } from '../../contexts/AuthContext';
 import userService from '../../services/userService';
+import UploadPicture from './PictureUpload/UploadPicture';
+import UserGroups from './UserGroups';
 
 import './UserList.scss';
 
@@ -27,6 +29,8 @@ const UserList = () => {
     return (
         <>
             <div className="userList">
+            <UploadPicture></UploadPicture>
+            <h5>Contacts</h5>
                 <ListGroup>
                     {friends && friends.length > 0 
                         ? friends.filter(x => currentUser._id !== x._id).map(u =>
@@ -36,7 +40,10 @@ const UserList = () => {
                         : "No users"
                     }
                 </ListGroup>
+                <h5>Groups</h5>
+                <UserGroups></UserGroups>
             </div>
+           
         </>
     )
 }

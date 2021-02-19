@@ -10,14 +10,16 @@ import Main from './views/Layout/Main.js'
 
 import './App.scss';
 import RouteWrapper from "./views/Layout/RouteWrapper.js";
+import PrivateRouteWrapper from "./views/Layout/PrivateRouter.js";
 
 export default function App() {
+
   return (
     <Router>
       <div className="App">
         <AuthProvider>
           <Switch>
-            <RouteWrapper path="/" exact component={Home} layout={Main}/>
+            <PrivateRouteWrapper path="/" exact component={Home} layout={Main}/>
             <Route path="/authorization" component={isGuest(Register)} />
             <RouteWrapper path="/user/:userId" component={UserView} layout={Main}/>
             <RouteWrapper path="/chat/:chatId" component={ChatRoom} layout={Main}/>

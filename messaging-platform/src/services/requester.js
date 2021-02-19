@@ -13,6 +13,7 @@ const initRequest = async (contentType, method, body) => {
     //refreshToken();
     return {
         method,
+        credentials: 'include',
         headers: {
             ...(contentType && { "Content-Type": contentType })
         },

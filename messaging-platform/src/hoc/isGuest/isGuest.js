@@ -14,7 +14,7 @@ const isGuest = Component => {
                 history.push('/')
             }
         });
-
+//todo: KAT NAPRAISH HOC-a sh bachka
         return (
             <> 
                 { !currentUser ? <Component /> : null}
