@@ -40,7 +40,7 @@ Adapter.prototype.getConnection = function() {
 Adapter.prototype.initialize = async function() {
     const adapter = new Adapter();
     try {
-        await adapter.connect(MONGO_HOST, DB_NAME);
+        await adapter.connect(MONGO_PROD, DB_NAME);
         return adapter;
     } catch (err) {
         console.log(err);
