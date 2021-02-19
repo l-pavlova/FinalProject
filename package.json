@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "devStart": "nodemon server.js"
+    "start": "cd server && node server",
+    "build": "cd ./messaging-platform && npm install && npm run build",
+    "devStart": "cd server && nodemon server.js"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +18,9 @@
     "firebase-admin": "^9.5.0",
     "mongodb": "^3.6.3",
     "socket.io": "^3.1.1"
+  },
+  "engines": {
+    "node": "14.x"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
