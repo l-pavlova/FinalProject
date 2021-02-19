@@ -17,6 +17,7 @@ const ChatRoom = ({
     const { chatId } = useParams();
     const { currentUser } = useAuth();
 
+    //const [currentUser, setCurrentUser] = useState(useAuth().currentUser);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const user = JSON.parse(localStorage.getItem('users')).find(x => x._id == chatId);
@@ -24,24 +25,43 @@ const ChatRoom = ({
 
     useEffect(() => {
         socket = io(ENDPOINT);
+        if(currentUser) {
+            socket.emit('join', { currentUser, user: user }, () => {
+            });
+        }
 
-        socket.emit('join', { currentUser, user: user });
-        console.log(user);
-    })
+        return () => {
+            socket.emit('disconnected', currentUser._id, () => setMessages([]));
+            socket.off();
+        }
+    }, [chatId])
 
-    /*useEffect(() => {
-        socket.on('message', (message) => {
-            console.log(message);
-            setMessages([...messages, message])
+    useEffect(() => {
+        socket.on('message', message => {
+            setMessages(messages => [ ...messages, message ])
         })
-    }, [messages])*/
+    }, [chatId])
+
+    const sendMessage = (event) => {
+        event.preventDefault();
+
+        if(message) {
+            socket.emit('sendMessage', message, currentUser._id, () => setMessage(''));
+        }
+    } 
 
     return (
         <div className="chat-room">
             <UserList></UserList>
             <UserGroups></UserGroups>
             <div className="chat-field">
-                <ChatField></ChatField>
+                <ChatField
+                    messages={messages}
+                    message={message}
+                    setMessage={setMessage}
+                    sendMessage={sendMessage}
+                    currentUser={currentUser}
+                />
             </div>
             <UserDetails></UserDetails>
         </div>

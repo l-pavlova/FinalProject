@@ -5,6 +5,7 @@ const firebaseAdmin = require('../utils/firebaseService');
 const hasToken = (req, res, next) => {
     //const token = req.headers.cookie.split('; ')[0].replace('token=', '');
     if(!req.headers.cookie || req.headers.cookie.split('=')[0] !== 'token') {
+        
         return res.status(401).json({
             error: {
                 message: 'You are not authorized!',
@@ -21,7 +22,6 @@ const hasToken = (req, res, next) => {
 const verifyToken = async (req, res, next) => {
     try {
         const { authToken } = req;
-        console.log(authToken);
         const userInfo = await firebaseAdmin.auth().verifyIdToken(authToken);
         req.authId = userInfo.uid;
 
@@ -33,6 +33,6 @@ const verifyToken = async (req, res, next) => {
 };
 
 router.use(hasToken);
-//router.use(verifyToken);
+router.use(verifyToken);
 
 exports.isAuthenticated = router;

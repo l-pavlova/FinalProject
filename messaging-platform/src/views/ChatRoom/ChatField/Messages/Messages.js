@@ -1,23 +1,27 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Message from './Message';
 
 const Messages = ({
     messages
 }) => {
 
-    /*const componentMessages = messages.map((message, i) => {
+    useEffect(() => {
+        console.log(messages)
+    }, [])
+
+    const componentMessages = messages.map((message, i) => {
         return (
             <Message
                 key={i}
                 username={message.firstName}
-                message={message.message}
+                message={message.text}
                 fromMe={message.fromMe} />
         );
-    });*/
+    });
 
     return (
         <div className='messages' id='messageList'>
-            { <></> }
+            {componentMessages}
         </div>
     );
 }

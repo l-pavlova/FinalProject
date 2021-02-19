@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 const Messages = ({
     message,
@@ -7,12 +7,26 @@ const Messages = ({
 }) => {
     return (
         <div className={`message ${fromMe}`}>
-            <div className='username'>
-                {username}
-            </div>
-            <div className='message-body'>
-                {message}
-            </div>
+            { fromMe == 'me'
+                ?
+                <>
+                    <div className='username'>
+                        {username}
+                    </div>
+                    <div className='message-body'>
+                        {message}
+                    </div>
+                </>
+                :
+                <>
+                    <div className='message-body'>
+                        {message}
+                    </div>
+                    <div className='username'>
+                        {username}
+                    </div>
+                </>
+            }
         </div>
     );
 }
