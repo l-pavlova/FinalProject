@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 
 const { SERVER_PORT } = require('./constants/config.js');
+const { REACT_PORT } = require('../messaging-platform/src/constants/env.js');
 const routes = require('./routes');
 const { callbackify } = require('util');
 
