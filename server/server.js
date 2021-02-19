@@ -1,12 +1,14 @@
 const express = require('express');
 const http = require('http');
-var cors = require('cors')
+const cors = require('cors')
 const bodyParser = require('body-parser');
 const socketio = require('socket.io');
+const CryptoJS = require("crypto-js");
+const AES = require("crypto-js/aes");
+const { addUser, removeUser, getUser, getUsersInRoom, getAllUsers } = require('./utils/chatUsers')
 
 const { SERVER_PORT } = require('./constants/config.js');
 const routes = require('./routes');
-const { callbackify } = require('util');
 
 const { urlencoded, json } = bodyParser;
 
@@ -15,6 +17,7 @@ const port = process.env.port || SERVER_PORT;
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
+  wsEngine: 'ws',
   cors: {
     origin: "http://localhost:3000",
     methods: ["GET", "POST"]
@@ -27,21 +30,45 @@ app.use(json());
 app.use(routes);
 
 io.on('connection', socket => {
-  console.log("Daaaa");
+  socket.on('join', (users, callback) => {
 
-  socket.on('join', (user, callback) => {
-    console.log(user);
-    socket.emit('message', "Wellcome");
 
-    socket.broadcast.to('1').emit('message', {user: "Pesho joind"});
+    const sortedIds = [users.currentUser._id, users.user._id].sort();
+    let roomId = '';
+    if (sortedIds[0], sortedIds[1]) {
+      roomId = CryptoJS.HmacSHA1(sortedIds[0], sortedIds[1]).toString();
+      const { error, result } = addUser(users.currentUser, roomId)
 
-    socket.join('1');
+      console.log(users.currentUser, roomId)
+      if (error) {
+        return callback(error);
+      }
+    }
 
-    //callback();
+    socket.emit('message', { fromMe: 'admin', user: users.currentUser._id, text: `${users.currentUser.firstName}, wellcome to chat with ${users.user.firstName}` });
+    socket.broadcast.to(roomId).emit('message', { fromMe: 'admin', text: `${users.currentUser.firstName}, is active` });
+
+    socket.join(roomId);
+
+    callback();
   })
 
-  socket.on('disconnect', () => {
-    console.log('user logout')
+  socket.on('sendMessage', (message, userId, callback) => {
+    const user = getUser(userId);
+
+    if (user) {
+      io.to(user.roomId).emit('message', { from: user._id, firstName: user.firstName, text: message })
+    }
+
+    callback();
+  });
+
+  socket.on('disconnected', (userId, callback) => {
+    //const user = getUser(userId);
+    console.log(userId);
+    removeUser(userId);
+
+    callback()
   })
 });
 

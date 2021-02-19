@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
 import { Card } from 'react-bootstrap';
 
@@ -9,12 +9,21 @@ import './ChatField.scss'
 
 const ChatField = ({
     messages,
+    message,
+    setMessage,
+    sendMessage,
+    currentUser,
 }) => {
+
     return (
         <Card className="chat-field-container">
-            <h3>React Chat App</h3>
-            <Messages messages={messages} />
-            <ChatInput />
+            <h3>{`${currentUser.firstName} ${currentUser.lastName}`}</h3>
+            <Messages messages={messages.map(x => { return { ...x, fromMe: x.fromMe ? x.fromMe : x.from === currentUser._id ? "me" : "other" } })} />
+            <ChatInput
+                message={message}
+                setMessage={setMessage}
+                sendMessage={sendMessage}
+            />
         </Card>
     );
 }

@@ -5,6 +5,7 @@ const firebaseAdmin = require('../utils/firebaseService');
 const hasToken = (req, res, next) => {
     //const token = req.headers.cookie.split('; ')[0].replace('token=', '');
     if(!req.headers.cookie || req.headers.cookie.split('=')[0] !== 'token') {
+        
         return res.status(401).json({
             error: {
                 message: 'You are not authorized!',

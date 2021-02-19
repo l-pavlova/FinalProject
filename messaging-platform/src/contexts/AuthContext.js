@@ -12,18 +12,19 @@ export const useAuth = () => {
 export const AuthProvider = ({
     children
 }) => {
-    const [currentUser, setCurrentUser] = useState("");
+    const [currentUser, setCurrentUser] = useState(false);
     const [loading, setLoading] = useState(true);
 
     const getUserByEmail = async (user) => setCurrentUser((await userService.getUserByEmail(user.email))[0]);
     
     useEffect(() => {
-        const unsubscribe = auth.onIdTokenChanged(user => {
+        const unsubscribe = auth.onIdTokenChanged(async user => {
+            console.log(user);
             if(user) {
                 if(!user.emailVerified) {
                     user.sendEmailVerification();
                 } else {
-                    getUserByEmail(user);
+                    await getUserByEmail(user);
                     //setCurrentUser(user);
                 }
             }

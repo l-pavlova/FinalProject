@@ -43,4 +43,15 @@ router.post('/register', async (req, res) => {
     }
 })
 
+router.get('/email/:email', async (req, res) => {
+    try {
+        const email = req.params.email;
+        await userRepo.find({email: email}).then((result) => {
+            res.send(result);
+        });
+    } catch (err) {
+        console.log(err);
+    }
+})
+
 module.exports = router;

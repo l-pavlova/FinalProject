@@ -15,7 +15,7 @@ const Home = ({
 
   return (
     <div className="Home">
-      <UserList/>
+      <UserList />
       <header className="Home-header">
       </header>
     </div>
