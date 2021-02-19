@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 
 import { logout } from '../../utils/authFunctions';
-import UploadPicture  from '../User/PictureUpload/UploadPicture'
 import Logo from '../../assets/logo.svg';
 
 import { Navbar, Form, Nav, DropdownButton, Image, Dropdown } from 'react-bootstrap';
@@ -24,12 +23,7 @@ const Main = ({
         setIsOpen(true);
     }
     const history = useHistory();
-    function handleSelect(selectedKey) {
-        alert('selected ' + selectedKey);
-        if(selectedKey == 1){
-            handleToggleModal();
-        }
-      }
+   
     return (
         <div className="main-layout-wrapper">
             <Navbar className="navbar" sticky="top">
@@ -61,7 +55,6 @@ const Main = ({
                         menuAlign={{ lg: 'right' }}
                         variant={'primary'}
                         title={<GearFill />}
-                        onSelect={handleSelect}
                     >
                         <Dropdown.Item eventKey="1" >Upload picture</Dropdown.Item>
                         <Dropdown.Item eventKey="2" onClick={logout}>Logout</Dropdown.Item>

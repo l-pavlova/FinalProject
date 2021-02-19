@@ -85,4 +85,14 @@ router.get('/friends/:id', async (req, res, next) => {
     res.send(friends);
 })
 
+router.post('/uploadPicture', async(req, res, next) => {
+    console.log('in surver upload');
+   
+    const profilePic = req.body.file;
+    const id = req.body.id;
+
+    await userRepo.updateOne(id, profilePic);
+})
+
+
 module.exports = router;

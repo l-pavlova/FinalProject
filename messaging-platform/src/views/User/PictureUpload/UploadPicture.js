@@ -3,10 +3,15 @@ import requester from '../../../services/requester';
 import api from '../../../services/api';
 import { Button, Card } from 'react-bootstrap';
 
+import { useAuth } from '../../../contexts/AuthContext';
+
 const UploadPicture = ({ }) => {
     const [image, setImage] = useState('');
 
     const [data, getImage] = useState({ name: "", path: "" });
+    const { currentUser } = useAuth();
+    console.log(">>>>>>>>>>>>>>>>>>>>>>");
+    console.log(currentUser);
     const el = useRef();
 
     const handleChange = (e) => {
@@ -19,12 +24,13 @@ const UploadPicture = ({ }) => {
         console.log(image);
         const formData = new FormData();
         formData.append('file', image);
-        formData.append('id', '600c494514ab581768a1bc24');//remove hardcoded
+        formData.append('_id', currentUser._id);
+        console.log(currentUser._id);
         const data = new URLSearchParams(formData);
 
-         fetch('user/uploadPicture', {
+         fetch('users/uploadPicture', {
              method: 'POST',
-             body: data
+             body: formData
            }).then((response) =>
            console.log("registering" + response));
 
@@ -34,7 +40,7 @@ const UploadPicture = ({ }) => {
     return (
         <>
             <Card onChange={getImage}> 
-            {data.path && <Card.Img variant="top" src={data.path} />}
+            {image.path && <Card.Img variant="top" src={image.path} />}
                 <Card.Body>
                     <Card.Title>Upload new profile pic</Card.Title>
                     <input type="file" ref={el} onChange={handleChange} style={{width: 'fit-content'}}/>
