@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react'
 import { ListGroup } from 'react-bootstrap';
+import Button from 'react-bootstrap/Button'
 
+import AddUserGroupDialog from './AddUserGroupDialog';
 import { groupService } from '../../services/userService';
 
-import './UserList.scss';
+import './UserGroups.scss';
 
 const UserGroups = () => {
     const [groups, setGroups] = useState([]);
@@ -20,11 +22,21 @@ const UserGroups = () => {
         console.log(groups);
     }, []);
 
+    const [show, setShow] = useState(false);
+
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+
     return (
         <>
-            <div className="userGroups">
+            <div className="user-groups">
+                <Button className="add-user-groups-button" variant="outline-primary" onClick={handleShow}>Add Group</Button>
+                <AddUserGroupDialog
+                    show={show}
+                    handleClose={handleClose}
+                />
                 <ListGroup>
-                    {groups && groups.length > 0 
+                    {groups && groups.length > 0
                         ? groups.map(u =>
                             <ListGroup.Item action href={`/chat/${u._id}`} variant="dark" key={u._id}>
                                 {u._id}
