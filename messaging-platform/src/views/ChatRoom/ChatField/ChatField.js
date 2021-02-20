@@ -23,6 +23,7 @@ const ChatField = ({
                 message={message}
                 setMessage={setMessage}
                 sendMessage={sendMessage}
+                currentUser={currentUser}
             />
         </Card>
     );

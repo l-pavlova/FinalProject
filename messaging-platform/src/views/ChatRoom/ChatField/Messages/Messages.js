@@ -7,11 +7,22 @@ const Messages = ({
 
     const componentMessages = messages.map((message, i) => {
         return (
-            <Message
-                key={i}
-                username={message.firstName}
-                message={message.text}
-                fromMe={message.fromMe} />
+            <>
+                {message.fileName
+                    ? <Message
+                        key={i}
+                        isImg={true}
+                        username={message.fileName}
+                        message={message.file}
+                        fromMe={message.fromMe} />
+                    : <Message
+                        key={i}
+                        isImg={false}
+                        username={message.firstName}
+                        message={message.text}
+                        fromMe={message.fromMe} />
+                }
+            </>
         );
     });
 

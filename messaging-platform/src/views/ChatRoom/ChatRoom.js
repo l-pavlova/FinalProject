@@ -41,6 +41,10 @@ const ChatRoom = ({
         socket.on('message', message => {
             setMessages(messages => [ ...messages, message ])
         })
+        socket.on('base64', img => {
+            console.log(4, img)
+            setMessages(messages => [ ...messages, img ])
+        });
     }, [chatId])
 
     const sendMessage = (event) => {

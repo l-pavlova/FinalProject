@@ -1,5 +1,5 @@
 import React from 'react';
-import {useRef, useState} from 'react';
+import { useRef, useState } from 'react';
 import io from 'socket.io-client';
 
 let socket;
@@ -9,6 +9,7 @@ const ChatInput = ({
     setMessage,
     message,
     sendMessage,
+    currentUser,
 }) => {
 
     const [image, setImage] = useState('');
@@ -18,30 +19,35 @@ const ChatInput = ({
     const handleChange = (e) => {
         const file = e.target.files[0];
         console.log(file);
-        readThenSendFile(file);      
+        readThenSendFile(file);
     }
 
     const ENDPOINT = 'localhost:3001';
-    function readThenSendFile(file){
+    const readThenSendFile = (file) => {
 
         var reader = new FileReader();
-        reader.onload = function(evt){
+        reader.onload = function (evt) {
             socket = io(ENDPOINT);
-      
-            var msg ={};
+
+            var msg = {};
             msg.file = evt.target.result;
             msg.fileName = file.name;
-            socket.emit('base64 file', msg);
+            console.log(msg)
+            socket.emit('sendMessage', msg, currentUser._id, () => console.log(0));
         };
         reader.readAsDataURL(file);
     }
-    
 
-      
+
+
     const textChangeHandler = (event) => { setMessage(event.target.value) };
     return (
         <form className="chat-input" onSubmit={submitHandler}>
-             <input type="file" ref={el} onChange={handleChange} style={{width: 'fit-content'}}/>
+            <input
+                type="file" ref={el}
+                onChange={handleChange}
+                style={{ width: 'fit-content' }}
+            />
             <input
                 className="text-field"
                 type="text"

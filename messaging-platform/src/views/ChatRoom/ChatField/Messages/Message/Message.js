@@ -4,7 +4,17 @@ const Messages = ({
     message,
     username,
     fromMe,
+    isImg,
 }) => {
+    if (isImg) {
+        return (
+            <div className={`message ${fromMe}`}>
+                <>
+                    <img className='img' src={message}/>
+                </>
+            </div>
+        )
+    }
     return (
         <div className={`message ${fromMe}`}>
             { fromMe == 'me'

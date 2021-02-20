@@ -63,34 +63,47 @@ io.on('connection', socket => {
 
       socket.join(roomId);
     }
-
-    socket.on('base64 file', function (msg) {
-      console.log(msg);
-      socket.username = msg.username;
-      // socket.broadcast.emit('base64 image', //exclude sender
-      io.sockets.emit('base64 file',  //include sender
-  
-          {
-            username: socket.username,
-            file: msg.file,
-            fileName: msg.fileName
-          }
-  
-      );
-  });
     callback();
   })
 
   socket.on('sendMessage', (message, userId, callback) => {
     const user = getUser(userId);
 
-    if (user) {
-      io.to(user.roomId).emit('message', { from: user._id, firstName: user.firstName, text: message })
+    if (message.fileName && user) {
+      io.to(user.roomId).emit('base64',  //include sender
+        {
+          from: user._id,
+          file: message.file,
+          fileName: message.fileName
+        }
+
+      );
+    }
+    else {
+      if (user) {
+        io.to(user.roomId).emit('message', { from: user._id, firstName: user.firstName, text: message })
+      }
     }
 
     callback();
   });
 
+  socket.on('base64', (msg, userId, callback) => {
+    const user = getUser(userId);
+    if (user) {
+      console.log(user, msg)
+      /*io.to(user.roomId).emit('base64',  //include sender
+        {
+          from: user._id,
+          file: msg.file,
+          fileName: msg.fileName
+        }
+
+      );*/
+    }
+
+    callback();
+  });
 
   socket.on('disconnected', (userId, callback) => {
     removeUser(userId);
