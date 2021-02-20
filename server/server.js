@@ -50,14 +50,13 @@ io.on('connection', socket => {
     console.log('user logout')
   })
 });
-if (process.env.NODE_ENV === 'production') {
-  // Serve any static files
-  app.use(express.static(path.join(__dirname, 'build/static')));
-// Handle React routing, return all requests to React app
-  app.get('*', function(req, res) {
-    console.log('it works');
-    res.sendFile(path.join(__dirname, 'build/static', 'index.html'));
-  });
+
+app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
+if(process.env.NODE_ENV === 'production') { 
+   app.use(express.static(path.join(__dirname, '../messaging-platform/build'))); 
+   app.get('*', (req, res) => {    res.sendFile(path.join(__dirname = '../messaging-platform/build/index.html'));  })
+  } else {
+  app.get('*', (req, res) => {  res.sendFile(path.join(__dirname+'../messaging-platform/public/index.html'));})
 }
 
 server.listen(port, () => {
