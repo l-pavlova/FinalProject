@@ -54,6 +54,7 @@ io.on('connection', socket => {
 app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
 if(process.env.NODE_ENV === 'production') { 
    app.use(express.static(path.join(__dirname, '../messaging-platform/build'))); 
+   console.log('in app USE, PORT IS:', process.env.port);
    app.get('/*', (req, res) => {    res.sendFile(path.join(__dirname = 'messaging-platform/build/index.html'));  })
   } else {
   app.get('/*', (req, res) => {  res.sendFile(path.join(__dirname+'messaging-platform/public/index.html'));})
