@@ -5,10 +5,10 @@ import './UserDetails.scss';
 
 const UserDetails = () => {
     const [user , setUser] = useState({});
-    const { userId } = useParams();
+    const { chatId } = useParams();
 
     useEffect(() => {
-        const temp =  JSON.parse(localStorage.getItem('users')).find(x => x._id == userId);
+        const temp =  JSON.parse(localStorage.getItem('users')).find(x => x._id == chatId);
         setUser(temp);
     }, []);
     return (<>
