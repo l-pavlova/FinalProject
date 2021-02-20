@@ -24,8 +24,9 @@ const io = socketio(server, {
   }
 });
 
-
-
+if(process.env.NODE_ENV === 'production') { 
+app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
+}
 app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
@@ -51,14 +52,14 @@ io.on('connection', socket => {
   })
 });
 
-app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
-if(process.env.NODE_ENV === 'production') { 
+app.get('/*', (req, res) => {    res.sendFile(path.join(__dirname = 'messaging-platform/build/index.html'));  })
+/*if(process.env.NODE_ENV === 'production') { 
    app.use(express.static(path.join(__dirname, '../messaging-platform/build'))); 
    console.log('in app USE, PORT IS:', process.env.PORT);
    app.get('/*', (req, res) => {    res.sendFile(path.join(__dirname = 'messaging-platform/build/index.html'));  })
   } else {
   app.get('/*', (req, res) => {  res.sendFile(path.join(__dirname+'messaging-platform/public/index.html'));})
-}
+}*/
 
 server.listen(port, () => {
   console.log('in server')
