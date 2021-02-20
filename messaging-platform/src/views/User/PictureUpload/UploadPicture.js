@@ -17,6 +17,7 @@ const UploadPicture = ({ }) => {
         const file = e.target.files[0];
         console.log(file);
         setImage(file);
+        console.log(image.path)
     }
     const uploadImage = () => {
         const formData = new FormData();

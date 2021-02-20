@@ -18,6 +18,7 @@ const ChatRoom = ({
     const { currentUser } = useAuth();
 
     //const [currentUser, setCurrentUser] = useState(useAuth().currentUser);
+    const [img, setImg] = useState('');
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
     const user = JSON.parse(localStorage.getItem('users')).find(x => x._id == chatId);
