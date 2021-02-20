@@ -9,6 +9,7 @@ router.get('/', isAuthenticated, (req, res) => {
 
 router.use('/auth', globalAdapter, require('./controllers/authApi'))
 router.use('/users', isAuthenticated, globalAdapter, require('./controllers/usersApi'));
+router.use('/group', isAuthenticated, globalAdapter, require('./controllers/groupApi'));
 router.use('/messages', isAuthenticated, globalAdapter, require('./controllers/messagesApi'));
 
 module.exports = router;

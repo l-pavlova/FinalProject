@@ -32,23 +32,37 @@ app.use(routes);
 io.on('connection', socket => {
   socket.on('join', (users, callback) => {
 
+    if (users.user) {
+      const sortedIds = [users.currentUser._id, users.user._id].sort();
+      let roomId = '';
+      if (sortedIds[0], sortedIds[1]) {
+        roomId = CryptoJS.HmacSHA1(sortedIds[0], sortedIds[1]).toString();
+        const { error, result } = addUser(users.currentUser, roomId)
 
-    const sortedIds = [users.currentUser._id, users.user._id].sort();
-    let roomId = '';
-    if (sortedIds[0], sortedIds[1]) {
-      roomId = CryptoJS.HmacSHA1(sortedIds[0], sortedIds[1]).toString();
-      const { error, result } = addUser(users.currentUser, roomId)
-
-      console.log(users.currentUser, roomId)
-      if (error) {
-        return callback(error);
+        if (error) {
+          return callback(error);
+        }
       }
+
+      socket.emit('message', { fromMe: 'admin', user: users.currentUser._id, text: `${users.currentUser.firstName}, wellcome to chat with ${users.user.firstName}` });
+      socket.broadcast.to(roomId).emit('message', { fromMe: 'admin', text: `${users.currentUser.firstName}, is active` });
+
+      socket.join(roomId);
+    } else {
+      let roomId = users.chatId;
+      if (users.currentUser) {
+        const { error, result } = addUser(users.currentUser, roomId)
+
+        if (error) {
+          return callback(error);
+        }
+      }
+
+      socket.emit('message', { fromMe: 'admin', user: users.currentUser._id, text: `${users.currentUser.firstName}, wellcome to room ${roomId}` });
+      socket.broadcast.to(roomId).emit('message', { fromMe: 'admin', text: `${users.currentUser.firstName}, is active` });
+
+      socket.join(roomId);
     }
-
-    socket.emit('message', { fromMe: 'admin', user: users.currentUser._id, text: `${users.currentUser.firstName}, wellcome to chat with ${users.user.firstName}` });
-    socket.broadcast.to(roomId).emit('message', { fromMe: 'admin', text: `${users.currentUser.firstName}, is active` });
-
-    socket.join(roomId);
 
     callback();
   })
@@ -64,8 +78,6 @@ io.on('connection', socket => {
   });
 
   socket.on('disconnected', (userId, callback) => {
-    //const user = getUser(userId);
-    console.log(userId);
     removeUser(userId);
 
     callback()

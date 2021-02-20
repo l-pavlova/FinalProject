@@ -20,12 +20,9 @@ const UploadPicture = ({ }) => {
         setImage(file);
     }
     const uploadImage = () => {
-        console.log('in');
-        console.log(image);
         const formData = new FormData();
         formData.append('file', image);
         formData.append('_id', currentUser._id);
-        console.log(currentUser._id);
         const data = new URLSearchParams(formData);
 
          fetch('users/uploadPicture', {
