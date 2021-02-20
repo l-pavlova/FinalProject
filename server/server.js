@@ -22,7 +22,7 @@ const server = http.createServer(app);
 const io = socketio(server, {
   wsEngine: 'ws',
   cors: {
-    origin: "http://localhost:3000",
+   // origin: "http://localhost:3000",
     methods: ["GET", "POST"]
   }
 });
