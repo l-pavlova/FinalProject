@@ -1,7 +1,7 @@
-import { response, Router } from 'express';
-import User from '../DAL/models/user.js'
-import Repository from '../DAL/collectionRepository.js'
-import cookieParser from 'cookie-parser';
+const { response, Router } = require('express');
+const User = require('../DAL/models/user.js');
+const Repository = require('../DAL/collectionRepository.js');
+const cookieParser = require('cookie-parser');
 
 const router = Router();
 let adapter = {};
@@ -19,9 +19,14 @@ router.use((req, res, next) => {
     next();
 })
 
-router.get('/', (req, res) => {
+router.get('/:id', async (req, res) => {
     try {
-        await groupRepo.find().then((result) => {
+        const userId = req.params.id
+        await groupRepo.find(
+            {
+                usersId: { $in: [userId] }
+            }
+        ).then((result) => {
             res.send(result);
         });
     } catch (err) {
@@ -29,4 +34,18 @@ router.get('/', (req, res) => {
     }
 })
 
-export default router;
+router.post('/', async (req, res) => {
+
+    try {
+        const groupInfo = req.body;
+        //todo: fix schema validation
+        const newGroupInfo = await groupRepo.create(groupInfo)
+        res.json(`Succeed`);
+    } catch (e) {
+        console.log(e);
+        //res.redirect('/');
+        console.log('Failed registering')
+    }
+})
+
+module.exports = router;

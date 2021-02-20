@@ -1,7 +1,7 @@
-import { response, Router } from 'express';
-import User from '../DAL/models/user.js'
-import Repository from '../DAL/collectionRepository.js'
-import cookieParser from 'cookie-parser';
+const { response, Router } = require('express');
+const User = require('../DAL/models/user.js');
+const Repository = require('../DAL/collectionRepository.js');
+const cookieParser = require('cookie-parser');
 
 const router = Router();
 let adapter = {};
@@ -88,4 +88,4 @@ router.post('/uploadPicture', async(req, res, next) => {
     await userRepo.updateOne(id, profilePic);
 })
 
-export default router;
+module.exports = router;
