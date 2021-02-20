@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import { Container } from 'react-bootstrap';
 import './UserDetails.scss';
 
+import userService from '../../../services/userService';
+
+
 const UserDetails = () => {
     const [user , setUser] = useState({});
     const { chatId } = useParams();

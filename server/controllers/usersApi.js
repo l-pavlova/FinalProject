@@ -36,7 +36,7 @@ router.get('/all', async (req, res, next) => {
 router.get('/:id', async (req, res, next) => {
     try {
         await userRepo.findById(req.params.id).then((user) => {
-            res.send(user)
+           res.send(user)
         });
     } catch (err) {
         console.log(err);
@@ -70,10 +70,14 @@ router.get('/friends/:id', async (req, res, next) => {
 router.post('/uploadPicture', async(req, res, next) => {
     console.log('in surver upload');
    
-    const profilePic = req.body.file;
-    const id = req.body.id;
-
-    await userRepo.updateOne(id, profilePic);
+    const item = req.body.file;
+    const id = "600c494514ab581768a1bc24";
+    const updateDoc = {
+        $set: {
+            profilePic: item
+        }
+    }
+    await userRepo.updateOne(id, updateDoc);
 })
 
 

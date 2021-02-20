@@ -1,4 +1,5 @@
-const  MongoClient = require('mongodb');
+const  {MongoClient} = require('mongodb');
+const  Mongo = require('mongodb');
 const { createCollection, deleteCollection } = require("./dbSchemas/collections.js");
 const {MONGO_HOST, MONGO_PROD} = require('../constants/config.js');
 const {DB_NAME} = require('../constants/config.js');
@@ -39,6 +40,7 @@ Adapter.prototype.getConnection = function() {
 
 Adapter.prototype.initialize = async function() {
     const adapter = new Adapter();
+    console.log(MONGO_PROD);
     try {
         await adapter.connect(MONGO_PROD, DB_NAME);
         return adapter;
@@ -49,7 +51,7 @@ Adapter.prototype.initialize = async function() {
 }
 
 Adapter.prototype.createObjectId = function(id) {
-    return new MongoClient.ObjectID(id);
+    return new Mongo.ObjectID(id);
 }
 
 module.exports = Adapter;

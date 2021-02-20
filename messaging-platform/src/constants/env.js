@@ -1,1 +1,1 @@
-const HOST = "http://localhost:3001"
+const HOST = process.env.port  || "http://localhost:3001"

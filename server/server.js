@@ -1,6 +1,7 @@
 const express = require('express');
 const http = require('http');
-const cors = require('cors')
+var cors = require('cors')
+const path = require('path')
 const bodyParser = require('body-parser');
 const socketio = require('socket.io');
 const CryptoJS = require("crypto-js");
@@ -8,11 +9,13 @@ const AES = require("crypto-js/aes");
 const { addUser, removeUser, getUser, getUsersInRoom, getAllUsers } = require('./utils/chatUsers')
 
 const { SERVER_PORT } = require('./constants/config.js');
+const { REACT_PORT } = require('../messaging-platform/src/constants/env.js');
 const routes = require('./routes');
+
 
 const { urlencoded, json } = bodyParser;
 
-const port = process.env.port || SERVER_PORT;
+const port = process.env.PORT || SERVER_PORT;
 
 const app = express();
 const server = http.createServer(app);
@@ -24,10 +27,14 @@ const io = socketio(server, {
   }
 });
 
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
+}
 app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
 app.use(routes);
+app.use(express.static(path.resolve(__dirname, '..', 'build')));
 
 io.on('connection', socket => {
   socket.on('join', (users, callback) => {
@@ -84,7 +91,17 @@ io.on('connection', socket => {
   })
 });
 
+app.get('/*', (req, res) => { res.sendFile(path.join(__dirname = 'messaging-platform/build/index.html')); })
+/*if(process.env.NODE_ENV === 'production') { 
+   app.use(express.static(path.join(__dirname, '../messaging-platform/build'))); 
+   console.log('in app USE, PORT IS:', process.env.PORT);
+   app.get('/*', (req, res) => {    res.sendFile(path.join(__dirname = 'messaging-platform/build/index.html'));  })
+  } else {
+  app.get('/*', (req, res) => {  res.sendFile(path.join(__dirname+'messaging-platform/public/index.html'));})
+}*/
+
 server.listen(port, () => {
+  console.log('in server')
   console.log(`App listening at http://localhost:${port}`)
 })
 

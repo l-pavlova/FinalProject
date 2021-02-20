@@ -15,20 +15,19 @@ module.exports = class Repository {
 
     async findById(id) {
         const o_id = this.adapter.createObjectId(id);
-        return await this._collection.findOne({ '_id': o_id }); //.toArray();
+        return await this._collection.findOne({ '_id': o_id }); 
     }
 
     async updateOne(id, item) {
         const o_id = this.adapter.createObjectId(id);
+        console.log(id);
         const filter = { '_id': o_id };
         const options = { upsert: true };
-        const updateDoc = {
-            $set: {
-                profilePic: item
-            }
-        }
-        const result = await this._collection.updateOne(filter, updateDoc, options);
-        console.log(result);
+        
+        const user = this.findById(id).then(u => console.log(u));
+
+        const result = await this._collection.updateOne(filter, item, options);
+        console.log(result.message);
         return result;
     }
 
