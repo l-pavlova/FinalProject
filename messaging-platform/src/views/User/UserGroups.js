@@ -45,6 +45,9 @@ const UserGroups = ({
 
     const handleAddGroup = (groupName, usersId) => {
         groupService.addGroup({ groupName, usersId });
+        if(usersId.includes(currentUser._id)) {
+            localStorage.setItem('groups', JSON.stringify(groups.push({groupName, usersId})));
+        }
         handleClose();
     }
 

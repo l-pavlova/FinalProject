@@ -19,7 +19,6 @@ export const AuthProvider = ({
     
     useEffect(() => {
         const unsubscribe = auth.onIdTokenChanged(async user => {
-            console.log(user);
             if(user) {
                 if(!user.emailVerified) {
                     user.sendEmailVerification();
