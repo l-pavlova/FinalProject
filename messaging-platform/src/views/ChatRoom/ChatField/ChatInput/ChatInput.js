@@ -1,4 +1,5 @@
 import React from 'react';
+import {useRef, useState} from 'react';
 
 const ChatInput = ({
     submitHandler,
@@ -7,12 +8,20 @@ const ChatInput = ({
     sendMessage,
 }) => {
 
-    //const [chatInput, setChatInput] = useState();
+    const [image, setImage] = useState('');
+
+    const el = useRef();
+
+    const handleChange = (e) => {
+        const file = e.target.files[0];
+        console.log(file);
+        setImage(file);
+    }
 
     const textChangeHandler = (event) => { setMessage(event.target.value) };
-
     return (
         <form className="chat-input" onSubmit={submitHandler}>
+             <input type="file" ref={el} onChange={handleChange} style={{width: 'fit-content'}}/>
             <input
                 className="text-field"
                 type="text"

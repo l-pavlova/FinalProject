@@ -64,6 +64,20 @@ io.on('connection', socket => {
       socket.join(roomId);
     }
 
+    socket.on('base64 file', function (msg) {
+      console.log(msg);
+      socket.username = msg.username;
+      // socket.broadcast.emit('base64 image', //exclude sender
+      io.sockets.emit('base64 file',  //include sender
+  
+          {
+            username: socket.username,
+            file: msg.file,
+            fileName: msg.fileName
+          }
+  
+      );
+  });
     callback();
   })
 
@@ -76,6 +90,7 @@ io.on('connection', socket => {
 
     callback();
   });
+
 
   socket.on('disconnected', (userId, callback) => {
     removeUser(userId);
