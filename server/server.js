@@ -18,6 +18,9 @@ const { urlencoded, json } = bodyParser;
 const port = process.env.PORT || SERVER_PORT;
 
 const app = express();
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
+}
 const server = http.createServer(app);
 const io = socketio(server, {
   wsEngine: 'ws',
@@ -27,9 +30,7 @@ const io = socketio(server, {
   }
 });
 
-if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../messaging-platform/build')));
-}
+
 app.use(cors());
 app.use(urlencoded({ extended: true }));
 app.use(json());
