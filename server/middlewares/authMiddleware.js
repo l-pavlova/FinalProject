@@ -33,6 +33,6 @@ const verifyToken = async (req, res, next) => {
 };
 
 router.use(hasToken);
-//router.use(verifyToken);
+router.use(verifyToken);
 
 exports.isAuthenticated = router;
