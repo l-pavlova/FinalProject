@@ -19,7 +19,6 @@ const Main = ({
     </Button>*/
     const[isOpen, setIsOpen] = useState(false);
     const handleToggleModal = () => {
-        console.log('open up bitch');
         setIsOpen(true);
     }
     const history = useHistory();

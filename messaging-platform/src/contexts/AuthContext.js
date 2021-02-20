@@ -25,7 +25,6 @@ export const AuthProvider = ({
                     user.sendEmailVerification();
                 } else {
                     await getUserByEmail(user);
-                    //setCurrentUser(user);
                 }
             }
             setLoading(false);

@@ -9,7 +9,8 @@ const userService = {
 
 
 export const groupService = {
-    getGroup: chatId => requester(api.getChat(chatId)).get()
+    getGroup: (id) => requester(api.getGroup(id)).get(),
+    addGroup: groupInfo => requester(api.addGroup()).create(groupInfo),
 }
 
 

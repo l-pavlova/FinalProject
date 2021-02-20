@@ -9,7 +9,6 @@ const UserDetails = () => {
 
     useEffect(() => {
         const temp =  JSON.parse(localStorage.getItem('users')).find(x => x._id == userId);
-        console.log(temp);
         setUser(temp);
     }, []);
     return (<>

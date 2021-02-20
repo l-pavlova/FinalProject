@@ -5,10 +5,6 @@ const Messages = ({
     messages
 }) => {
 
-    useEffect(() => {
-        console.log(messages)
-    }, [])
-
     const componentMessages = messages.map((message, i) => {
         return (
             <Message

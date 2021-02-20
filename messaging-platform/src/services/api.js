@@ -10,8 +10,10 @@ const api = {
     getFriends: () => `/users/all`,
     getFriendsList: friendId  => `/users//friends/${friendId}`,
     //MessagingControler
-    getChat: chatId => `/messages/${chatId}`,
+    getGroup: (id) => `/group/${id}`,
     sendMessage: () => `/messages/sendMessage`,
+
+    addGroup: () => `/group`,
 }
 
 export default api;

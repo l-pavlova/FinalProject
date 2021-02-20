@@ -6,11 +6,10 @@ import UserList from '../User/UserList';
 import ChatField from './ChatField'
 import { useAuth } from '../../contexts/AuthContext';
 import UserDetails from '../User/UserDetails';
-import UserGroups from '../User/UserGroups';
 
 let socket;
 
-const ChatRoom = ({
+const GroupChatRoom = ({
 
 }) => {
 
@@ -20,13 +19,12 @@ const ChatRoom = ({
     //const [currentUser, setCurrentUser] = useState(useAuth().currentUser);
     const [message, setMessage] = useState('');
     const [messages, setMessages] = useState([]);
-    const user = JSON.parse(localStorage.getItem('users')).find(x => x._id == chatId);
     const ENDPOINT = 'localhost:3001';
 
     useEffect(() => {
         socket = io(ENDPOINT);
         if(currentUser) {
-            socket.emit('join', { currentUser, user: user }, () => {
+            socket.emit('join', {currentUser, chatId: chatId }, () => {
             });
         }
 
@@ -67,4 +65,4 @@ const ChatRoom = ({
     );
 }
 
-export default ChatRoom;
+export default GroupChatRoom;
